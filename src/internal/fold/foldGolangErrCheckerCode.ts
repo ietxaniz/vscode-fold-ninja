@@ -1,9 +1,12 @@
 import * as vscode from "vscode";
 
 export const foldGolangErrCheckerCode = async (editor: vscode.TextEditor) => {
+  if (editor.visibleRanges.length === 0) {
+    return;
+  }
+
+  const firstVisibleLine = editor.visibleRanges[0].start.line;
   const originalSelection = editor.selection;
-
-
   const selectionsToFold: vscode.Selection[] = [];
 
   const step1Expr = /\s+err\s+:?=/g;
@@ -51,6 +54,7 @@ export const foldGolangErrCheckerCode = async (editor: vscode.TextEditor) => {
     await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
 
     editor.selection = originalSelection;
-    await editor.revealRange(originalSelection, vscode.TextEditorRevealType.InCenter);
+    const range = new vscode.Range(firstVisibleLine, 0, firstVisibleLine, 0);
+    await editor.revealRange(range, vscode.TextEditorRevealType.AtTop);
   }
 };

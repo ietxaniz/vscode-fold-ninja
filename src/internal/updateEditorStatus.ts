@@ -21,7 +21,7 @@ const foldCurrent = async () => {
     return;
   }
   
-  foldGolangErrCheckerCode(editor);
+  await foldGolangErrCheckerCode(editor);
 
 };
 

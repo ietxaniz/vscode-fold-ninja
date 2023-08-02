@@ -47,7 +47,7 @@ fmt.Printf("read %d bytes: %q\n", count, data[:count])
 Here, Fold Ninja folds away the error handling code, resulting in a more compact code view that places the primary logic front and center. This enhances the clarity of your code, making it quicker to review and easier to understand.
 
 
-**3. Expanded {<- ->}**
+**3. Expanded `{<- ->}`**
 
 The Expanded status unfolds any previously compacted sections. All parts of your code, including comments and error handling routines, are visible in this state.
 

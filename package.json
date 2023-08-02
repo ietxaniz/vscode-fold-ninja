@@ -2,7 +2,7 @@
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
   "description": "Easily manage your code's readability with Fold Ninja! Auto-fold comments and verbose code sections across languages, with special features for Golang error handling. Improve focus and enhance your coding review process.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "ietxaniz",
   "engines": {
     "vscode": "^1.80.0"
@@ -13,6 +13,7 @@
   "keywords": [
     "fold",
     "golang",
+    "go error handling",
     "comments",
     "hide",
     "code folding",

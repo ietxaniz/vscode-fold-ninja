@@ -2,7 +2,14 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
-## [0.1.1] - 2023-07-31
+## [0.1.2] - 2023-08-02
+
+### Fixed
+
+- Preserved scroll position after folding operations. The extension now remembers the topmost visible line before it performs the fold operation and restores the view to focus on the same line afterward, improving user experience.
+- Enhanced robustness by adding a check to ensure the editor's **visibleRanges** property contains at least one item before accessing it.
+
+## [0.1.1] - 2023-08-02
 
 ### Fixed
 - Ensured correct cursor positioning after folding operation
