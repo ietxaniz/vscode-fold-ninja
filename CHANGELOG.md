@@ -2,6 +2,11 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.1.1] - 2023-07-31
+
+### Fixed
+- Ensured correct cursor positioning after folding operation
+
 ## [0.1.0] - 2023-07-31
 
 ### Added
