@@ -1,5 +1,10 @@
 ## Fold Ninja
 
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/ietxaniz.fold-ninja)](https://img.shields.io/visual-studio-marketplace/v/ietxaniz.fold-ninja)
+[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/ietxaniz.fold-ninja)](https://img.shields.io/visual-studio-marketplace/i/ietxaniz.fold-ninja)
+[![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)
+[![GitHub stars](https://img.shields.io/github/stars/ietxaniz/vscode-fold-ninja)](https://github.com/ietxaniz/vscode-fold-ninja/stargazers)
+
 Fold Ninja is a Visual Studio Code extension designed to streamline your code review process by allowing you to focus on what's most important. By simplifying the view of your code, it enhances readability, and supports a more effective and efficient analysis.
 
 The primary goal of Fold Ninja is to reduce the noise that comes from excessive information in your code. It can automatically fold comments and verbose error management sections in Go files, offering a cleaner, more compact view of your code.
