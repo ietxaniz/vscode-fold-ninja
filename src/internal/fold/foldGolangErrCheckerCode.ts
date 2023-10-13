@@ -5,46 +5,36 @@ export const foldGolangErrCheckerCode = async (editor: vscode.TextEditor) => {
     return;
   }
 
-  const firstVisibleLine = editor.visibleRanges[0].start.line;
   const originalSelection = editor.selection;
   const selectionsToFold: vscode.Selection[] = [];
 
   const step1Expr = /\s+err\s+:?=/g;
-  const step2Expr = /^\s+if\s+err\s+!=\s+nil\s+\{/; // /^\s+if\s+err\s+!=\s+nil\s+\{\s*$/g;
+  const step2Expr = /^\s+if\s+err\s+!=\s+nil\s+\{/;
   const countExpr = /^\s+/g;
-  let step3Expr = /^\s{2}\}\s+$/g;
 
+  let braceCount = 0;
   let lastLineStart = -1;
-  let lastLineLength = 0;
+
   for (let lineIndex = 0; lineIndex < editor.document.lineCount; lineIndex++) {
-    if (lastLineStart < 0) {
-      const lineText = editor.document.lineAt(lineIndex).text;
-      const hasMatch = step1Expr.test(lineText);
-      if (hasMatch) {
+    const lineText = editor.document.lineAt(lineIndex).text;
+
+    if (step1Expr.test(lineText)) {
+      if (braceCount === 0) {
         lastLineStart = lineIndex;
-        lastLineLength = lineText.length;
-        const match = lineText.match(countExpr);
-        if (match) {
-          step3Expr = new RegExp(`^\\s{${match[0].length}}\\}\\s*$`, "g");
-        } else {
-          step3Expr = new RegExp(`^\\s{${0}}\\}\\s*$`, "g");
-        }
       }
-    } else {
-      if (lastLineStart + 1 === lineIndex) {
-        const lineText = editor.document.lineAt(lineIndex).text;
-        const hasMatch = step2Expr.test(lineText);
-        if (!hasMatch) {
-          lastLineStart = -1;
-        }
-      } else {
-        const lineText = editor.document.lineAt(lineIndex).text;
-        const hasMatch = step3Expr.test(lineText);
-        if (hasMatch) {
-          const newSelection = new vscode.Selection(lastLineStart, 0, lineIndex, lineText.length);
-          selectionsToFold.push(newSelection);
-          lastLineStart = -1;
-        }
+    }
+
+    if (step2Expr.test(lineText)) {
+      braceCount++;
+    }
+
+    if (lineText.trim() === "}") {
+      braceCount--;
+
+      if (braceCount === 0 && lastLineStart !== -1) {
+        const newSelection = new vscode.Selection(lastLineStart, 0, lineIndex, lineText.length);
+        selectionsToFold.push(newSelection);
+        lastLineStart = -1;
       }
     }
   }
@@ -52,9 +42,6 @@ export const foldGolangErrCheckerCode = async (editor: vscode.TextEditor) => {
   if (selectionsToFold.length > 0) {
     editor.selections = selectionsToFold;
     await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
-
     editor.selection = originalSelection;
-    const range = new vscode.Range(firstVisibleLine, 0, firstVisibleLine, 0);
-    await editor.revealRange(range, vscode.TextEditorRevealType.AtTop);
   }
 };
