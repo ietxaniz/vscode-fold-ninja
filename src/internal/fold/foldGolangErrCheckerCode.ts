@@ -19,9 +19,8 @@ export const foldGolangErrCheckerCode = async (editor: vscode.TextEditor) => {
     const lineText = editor.document.lineAt(lineIndex).text;
 
     if (step1Expr.test(lineText)) {
-      if (braceCount === 0) {
-        lastLineStart = lineIndex;
-      }
+      braceCount = 0;
+      lastLineStart = lineIndex;
     }
 
     if (step2Expr.test(lineText)) {
