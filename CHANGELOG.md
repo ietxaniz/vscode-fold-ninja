@@ -2,6 +2,12 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.1.4] - 2023-11-04
+
+### Changes
+
+- Add support for older vscode versions. Now works from v1.67.
+
 ## [0.1.3] - 2023-10-13
 
 ### Fixed
