@@ -1,5 +1,4 @@
 import { readConfig, writeConfig, Status } from "../configuration/config";
-import * as vscode from 'vscode';
 import { updateEditorStatus } from "./updateEditorStatus";
 
 export const toggleStatus = async () => {
@@ -21,7 +20,7 @@ export const toggleStatus = async () => {
       newStatus = Status.Inactive;
       break;
   }
-  const newConfig = {...config, status: newStatus };
+  const newConfig = { ...config, status: newStatus };
   await writeConfig(newConfig);
   await updateEditorStatus(newConfig);
   return newStatus;

@@ -10,7 +10,6 @@ export const foldGolangErrCheckerCode = async (editor: vscode.TextEditor) => {
 
   const step1Expr = /\s+err\s+:?=/g;
   const step2Expr = /^\s+if\s+err\s+!=\s+nil\s+\{/;
-  const countExpr = /^\s+/g;
 
   let braceCount = 0;
   let lastLineStart = -1;

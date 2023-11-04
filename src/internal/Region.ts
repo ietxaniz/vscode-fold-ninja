@@ -9,7 +9,7 @@ export class Region {
     this.endLine = endLine;
   }
 
-  update(r: Range, newText: string):boolean {
+  update(r: Range, _newText: string): boolean {
     if (r.start.line > this.endLine) {
       return false;
     }
@@ -22,4 +22,3 @@ export class Region {
     return true;
   }
 }
-
