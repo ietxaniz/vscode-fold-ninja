@@ -2,6 +2,22 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.1.7] - 2023-11-13
+
+### Changed
+
+- Add transparency to icon.
+
+## [0.1.6] - 2023-11-13
+
+### Added
+
+- New icon for the "Fold Ninja" extension to improve visibility and brand recognition in the marketplace.
+
+### Changed
+
+- Updated the extension version to 0.1.6 to reflect new changes and enhancements.
+
 ## [0.1.4] - 2023-11-04
 
 ### Changes
