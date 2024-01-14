@@ -25,3 +25,10 @@ export const toggleStatus = async () => {
   await updateEditorStatus(newConfig);
   return newStatus;
 };
+
+export const setStatus = async (newStatus:Status) => {
+  const config = readConfig();
+  const newConfig = { ...config, status: newStatus };
+  await writeConfig(newConfig);
+  await updateEditorStatus(newConfig);
+}

@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log('Activating fold-ninja extension');
   setGlobalState(context.globalState);
 
-	context.subscriptions.push(vscode.commands.registerCommand('fold-ninja.toggleStatus', command.toggleStatusCommand));
+	context.subscriptions.push(vscode.commands.registerCommand('fold-ninja.toggleStatus', command.showMenuOptions));
   context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(event.onTextEditorActivated));
 
 	console.log('Registering events');

@@ -5,13 +5,28 @@
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)
 [![GitHub stars](https://img.shields.io/github/stars/ietxaniz/vscode-fold-ninja)](https://github.com/ietxaniz/vscode-fold-ninja/stargazers)
 
-Fold Ninja is a Visual Studio Code extension designed to streamline your code review process by allowing you to focus on what's most important. By simplifying the view of your code, it enhances readability, and supports a more effective and efficient analysis.
+Fold Ninja is a Visual Studio Code extension designed to enhance code readability and review efficiency. By allowing you to toggle between different folding states, it reduces the visual clutter in your code, making it easier to focus on the most important aspects.
 
-The primary goal of Fold Ninja is to reduce the noise that comes from excessive information in your code. It can automatically fold comments and verbose error management sections in Go files, offering a cleaner, more compact view of your code.
-
-Whether you're trying to understand the core algorithm of a function without the distraction of error handling routines, or just trying to get a bird's eye view of a particularly complex piece of code, Fold Ninja is the tool you need. It offers three different folding states - Inactive, Compact, and Expanded, each designed to suit your varying requirements while analyzing or reviewing code.
+The latest update introduces a more versatile way of controlling Fold Ninja's behavior, offering you a quick and intuitive way to switch between different folding states and functionalities.
 
 ## Features and Usage
+
+### New! Menu Options for Enhanced Control
+
+Fold Ninja now offers a menu with multiple options, providing you with more control over how you view your code:
+
+1. **Collapse**: Instantly fold all sections of your code.
+2. **Expand**: Unfold all sections to view your entire codebase.
+3. **Change Status to Collapsing**: Set Fold Ninja to automatically collapse certain sections (like comments or verbose error management in Go).
+4. **Change Status to Expanding**: Automatically expand all sections of your code.
+5. **Change Status to Inactive**: Deactivate Fold Ninja to view your code in its original state.
+
+Accessing these options is simple:
+
+- Click on the Fold Ninja status bar item.
+- Choose your desired action from the menu.
+
+This update allows you to quickly switch between states without navigating through each status sequentially, enhancing your coding experience with more flexibility.
 
 ### Fold Ninja Statuses
 

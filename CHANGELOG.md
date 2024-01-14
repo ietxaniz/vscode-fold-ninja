@@ -2,6 +2,24 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.2.0] - 2024-01-14
+
+### Added
+
+- New menu options to provide users with more control over code folding: 
+  - "Collapse": Instantly fold all sections.
+  - "Expand": Unfold all sections.
+  - "Change status to Collapsing": Automatically collapse certain sections.
+  - "Change status to Expanding": Automatically expand all sections.
+  - "Change status to Inactive": Deactivate the extension.
+- Demo video updated to showcase new functionalities.
+
+### Changed
+
+- Improved user interaction by allowing direct selection of folding states from a new menu in the status bar.
+- Enhanced flexibility in code folding by enabling users to quickly switch between states without navigating through each status sequentially.
+
+
 ## [0.1.9] - 2023-11-13
 
 ### Changed
