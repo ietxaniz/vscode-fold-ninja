@@ -2,6 +2,23 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.2.1] - 2024-01-17
+
+### Added
+
+- Implementation of SHA1 hash-based change detection for active files to optimize performance.
+- Event-driven architecture for unfold and fold actions, triggered by file change or user command.
+- Singleton pattern for status management to ensure consistent state across the extension.
+
+### Changed
+
+- Enhanced fold and unfold logic to work selectively based on the file content changes.
+- Optimizations for better memory management and efficient file change detection.
+
+### Fixed
+
+- Minor bug fixes and performance improvements in code folding logic.
+
 ## [0.2.0] - 2024-01-14
 
 ### Added

@@ -3,5 +3,5 @@ import { updateEditorStatus } from "../internal/updateEditorStatus";
 
 export const onTextEditorActivated = async () => {
   const config = readConfig();
-  await updateEditorStatus(config);
+  await updateEditorStatus(config, false);
 }

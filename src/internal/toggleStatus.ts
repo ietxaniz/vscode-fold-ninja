@@ -1,7 +1,7 @@
 import { readConfig, writeConfig, Status } from "../configuration/config";
 import { updateEditorStatus } from "./updateEditorStatus";
 
-export const toggleStatus = async () => {
+export const toggleStatus = async (forceUpdate:boolean) => {
   const config = readConfig();
 
   let newStatus: Status;
@@ -22,13 +22,13 @@ export const toggleStatus = async () => {
   }
   const newConfig = { ...config, status: newStatus };
   await writeConfig(newConfig);
-  await updateEditorStatus(newConfig);
+  await updateEditorStatus(newConfig, forceUpdate);
   return newStatus;
 };
 
-export const setStatus = async (newStatus:Status) => {
+export const setStatus = async (newStatus:Status, forceUpdate:boolean) => {
   const config = readConfig();
   const newConfig = { ...config, status: newStatus };
   await writeConfig(newConfig);
-  await updateEditorStatus(newConfig);
+  await updateEditorStatus(newConfig, forceUpdate);
 }

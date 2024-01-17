@@ -18,15 +18,15 @@ export const showMenuOptions = async () => {
       action.unfoldCurrent();
       break;
     case "Change status to collapsing":
-      setStatus(Status.Compact);
+      setStatus(Status.Compact, false);
       updateStatusBarItem();
       break;
     case "Change status to expanding":
-      setStatus(Status.Expanded);
+      setStatus(Status.Expanded, false);
       updateStatusBarItem();
       break;
     case "Change status to inactive":
-      setStatus(Status.Inactive);
+      setStatus(Status.Inactive, false);
       updateStatusBarItem();
       break;
   }
