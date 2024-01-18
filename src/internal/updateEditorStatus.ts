@@ -8,6 +8,24 @@ export const unfoldCurrent = async () => {
   await vscode.commands.executeCommand("editor.unfoldAll");
 };
 
+export const foldFirst = async () => {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    return;
+  }
+
+  const foldingRanges = await vscode.commands.executeCommand<vscode.FoldingRange[]>('editor.foldAllBlockComments');
+  await vscode.commands.executeCommand("editor.unfoldAll");
+  if (foldingRanges.length > 0) {
+    const firstFoldingRange = foldingRanges[0];
+
+    editor.selection = new vscode.Selection(firstFoldingRange.start, 0, firstFoldingRange.start, 0);
+    const result = await vscode.commands.executeCommand('editor.fold');
+    console.log(result);
+    editor.selection = new vscode.Selection(0, 0, 0, 0);
+  }
+}
+
 export const foldCurrent = async () => {
   await vscode.commands.executeCommand("editor.foldAllBlockComments");
   const editor = vscode.window.activeTextEditor;
@@ -43,6 +61,9 @@ export const updateEditorStatus = async (config: ConfigType, forceAction:boolean
         break;
       case Status.Compact:
         foldCurrent();
+        break;
+      case Status.FoldFirst:
+        foldFirst();
         break;
       default:
         break;

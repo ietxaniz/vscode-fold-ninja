@@ -8,6 +8,7 @@ export enum Status {
   Inactive = "inactive",
   Expanded = "expanded",
   Compact = "compact",
+  FoldFirst = "fold-first",
 }
 
 export interface ConfigType {

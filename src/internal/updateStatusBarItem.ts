@@ -29,6 +29,10 @@ export const updateStatusBarItem = () => {
       statusBarItem.text = '{<-  ->}';
       statusBarItem.tooltip = 'Folding Ninja: expanded';
       break;
+    case 'fold-first':
+      statusBarItem.text = '{.1.}';
+      statusBarItem.tooltip = 'Folding Ninja: fold first item';
+      break;
     default:
       console.error(`Unexpected status: ${currentStatus}`);
   }
