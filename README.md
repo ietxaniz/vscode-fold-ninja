@@ -11,15 +11,17 @@ The latest update introduces a more versatile way of controlling Fold Ninja's be
 
 ## Features and Usage
 
-### New! Menu Options for Enhanced Control
+### Menu Options for Enhanced Control
 
 Fold Ninja now offers a menu with multiple options, providing you with more control over how you view your code:
 
 1. **Collapse**: Instantly fold all sections of your code.
-2. **Expand**: Unfold all sections to view your entire codebase.
-3. **Change Status to Collapsing**: Set Fold Ninja to automatically collapse certain sections (like comments or verbose error management in Go).
-4. **Change Status to Expanding**: Automatically expand all sections of your code.
-5. **Change Status to Inactive**: Deactivate Fold Ninja to view your code in its original state.
+2. **Collapse first**: Instantly fold first folding section of your code.
+3. **Expand**: Unfold all sections to view your entire codebase.
+4. **Change Status to Collapsing**: Set Fold Ninja to automatically collapse certain sections (like comments or verbose error management in Go).
+4. **Change Status to Collapsing first**: Set Fold Ninja to automatically collapse first foldable section.
+5. **Change Status to Expanding**: Automatically expand all sections of your code.
+6. **Change Status to Inactive**: Deactivate Fold Ninja to view your code in its original state.
 
 Accessing these options is simple:
 
@@ -71,16 +73,11 @@ Here, Fold Ninja folds away the error handling code, resulting in a more compact
 
 The Expanded status unfolds any previously compacted sections. All parts of your code, including comments and error handling routines, are visible in this state.
 
-### Switching Between Statuses
+**4. Collapse First Block `{.1.}`**
 
-Transitioning between these statuses is as easy as a single click on the status bar item.
+This status in Fold Ninja, is designed to simplify your initial view of a file by automatically collapsing the first significant block of text. This feature is particularly useful for files that start with extensive comments or licensing information, enabling you to immediately focus on the core content of the file. When activated, Fold Ninja will identify and fold the initial block or comment, streamlining your workflow and decluttering the visible code area. This addition enhances the extension's usability, especially when dealing with files containing standard header comments or documentation blocks.
 
-The status bar shows the current status of Fold Ninja in a visually intuitive way. Hovering over the status bar item will show a tooltip with the current status:
-
-- `{X}` - Folding Ninja: inactive
-- `{...}` - Folding Ninja: compact
-- `{<- ->}` - Folding Ninja: expanded
-
+Currently this feature is implemented for c, c++, c#, go, rust, javascript, typescript and python. If you are interested in adding another language please open an issue with an example of a source file of a language and a small description of how comments and strings work in that language.
 
 ### Demo video
 

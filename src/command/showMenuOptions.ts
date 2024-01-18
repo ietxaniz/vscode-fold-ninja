@@ -5,7 +5,7 @@ import { Status } from "../configuration/config";
 import { updateStatusBarItem } from "../internal/updateStatusBarItem";
 
 export const showMenuOptions = async () => {
-  const options = ["Collapse", "Expand", "Change status to collapsing", "Change status to collapsing first", "Change status to expanding", "Change status to inactive"];
+  const options = ["Collapse", "Collapse first", "Expand", "Change status to collapsing", "Change status to collapsing first", "Change status to expanding", "Change status to inactive"];
   const selection = await vscode.window.showQuickPick(options, { placeHolder: "Choose an action" });
   if (!selection) {
     return;
@@ -13,6 +13,9 @@ export const showMenuOptions = async () => {
   switch (selection) {
     case "Collapse":
       action.foldCurrent();
+      break;
+    case "Collapse first":
+      action.foldFirst();
       break;
     case "Expand":
       action.unfoldCurrent();

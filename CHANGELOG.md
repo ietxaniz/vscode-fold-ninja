@@ -2,6 +2,18 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.3.0] - 2024-01-18
+
+### Added
+- New 'Collapse First Block' feature `{.1.}`, enabling automatic collapsing of the first significant block or comment in a file. Ideal for files starting with extensive comments or licensing information.
+- Extended support to include additional programming languages such as C++, C#, Go, Rust, JavaScript, TypeScript, and Python, enhancing the extension's versatility across different coding environments.
+
+### Changed
+- Improved algorithm for more accurate and efficient folding behavior in supported languages.
+
+### Notes
+- Invitation for community contributions to support more languages. Guidelines provided for contributors to submit example files and specify comment/string patterns in new languages.
+
 ## [0.2.1] - 2024-01-17
 
 ### Added

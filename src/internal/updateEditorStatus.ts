@@ -14,14 +14,13 @@ export const foldFirst = async () => {
     return;
   }
 
-  const foldingRanges = await vscode.commands.executeCommand<vscode.FoldingRange[]>('editor.foldAllBlockComments');
-  await vscode.commands.executeCommand("editor.unfoldAll");
+  const fileName = editor.document.fileName;
+  const foldingRanges = StatusManager.getInstance().getFoldingRanges(fileName);
   if (foldingRanges.length > 0) {
     const firstFoldingRange = foldingRanges[0];
 
     editor.selection = new vscode.Selection(firstFoldingRange.start, 0, firstFoldingRange.start, 0);
-    const result = await vscode.commands.executeCommand('editor.fold');
-    console.log(result);
+    await vscode.commands.executeCommand('editor.fold');
     editor.selection = new vscode.Selection(0, 0, 0, 0);
   }
 }

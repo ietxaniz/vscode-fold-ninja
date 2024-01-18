@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as interfaces from "../interfaces";
+import { StatusManager } from "../StatusManager";
 
 enum AnalysisStatus {
   None = "None",
@@ -159,7 +160,6 @@ export class CStyleCommentFoldingRangeProvider implements vscode.FoldingRangePro
             }
           }
           if (previousStatus === AnalysisStatus.None) {
-            console.log(lineEnd);
             const { status, startPos, statusItem } = this.analyzeLineFromNoneStatus(line.substring(lineEnd));
             if (status === AnalysisStatus.LineComment || status === AnalysisStatus.BlockComment || status === AnalysisStatus.MultilineString) {
               statusStartLine = i;
@@ -196,6 +196,7 @@ export class CStyleCommentFoldingRangeProvider implements vscode.FoldingRangePro
       }
     }
 
+    StatusManager.getInstance().setFoldingRanges(document.fileName, foldingRanges);
     return foldingRanges;
   }
 }
