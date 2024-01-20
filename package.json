@@ -37,25 +37,25 @@
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
-  "configuration": [
-    {
-      "type": "object",
-      "title": "Fold Ninja",
-      "properties": {
-        "fold-ninja.maxNumberOfBytes": {
-          "type": "number",
-          "default": 1000000,
-          "description": "Maximum number of bytes for files to perform folding calculations."
-        },
-        "fold-ninja.maxNumberOfBytesIntenseMode": {
-          "type": "number",
-          "default": 10000,
-          "description": "Maximum number of bytes for files to perform folding calculations in intense mode."
+  "contributes": {
+    "configuration": [
+      {
+        "type": "object",
+        "title": "Fold Ninja",
+        "properties": {
+          "fold-ninja.maxNumberOfBytes": {
+            "type": "number",
+            "default": 1000000,
+            "description": "Maximum number of bytes for files to perform folding calculations."
+          },
+          "fold-ninja.maxNumberOfBytesIntenseMode": {
+            "type": "number",
+            "default": 10000,
+            "description": "Maximum number of bytes for files to perform folding calculations in intense mode."
+          }
         }
       }
-    }
-  ],
-  "contributes": {
+    ],
     "commands": [
       {
         "command": "fold-ninja.toggleStatus",

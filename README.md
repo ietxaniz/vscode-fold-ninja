@@ -5,42 +5,19 @@
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)
 [![GitHub stars](https://img.shields.io/github/stars/ietxaniz/vscode-fold-ninja)](https://github.com/ietxaniz/vscode-fold-ninja/stargazers)
 
-Fold Ninja is a Visual Studio Code extension designed to enhance code readability and review efficiency. By allowing you to toggle between different folding states, it reduces the visual clutter in your code, making it easier to focus on the most important aspects.
+Fold Ninja is an extension for Visual Studio Code, designed to boost code readability and efficiency in code reviews. With a spectrum of working modes - from Compact for a streamlined code review experience to Expanded for scenarios requiring an untouched code view, and an Intermediate mode offering customizable folding behavior - Fold Ninja adapts to your diverse coding needs. It also has a Inactive mode that temporarily disables the extension without the need to uninstall it.
 
-The latest update introduces a more versatile way of controlling Fold Ninja's behavior, offering you a quick and intuitive way to switch between different folding states and functionalities.
+The extension triggers folding or unfolding actions as you navigate between files, considering any changes since your last view. Specifically tailored algorithms support a wide range of languages, including C, C++, Go, Rust, JavaScript, TypeScript, Python, and C#.
 
 ## Features and Usage
 
-### Menu Options for Enhanced Control
+### Working Modes
 
-Fold Ninja now offers a menu with multiple options, providing you with more control over how you view your code:
+Fold Ninja offers four distinct working modes to suit various coding scenarios:
 
-1. **Collapse**: Instantly fold all sections of your code.
-2. **Collapse first**: Instantly fold first folding section of your code.
-3. **Expand**: Unfold all sections to view your entire codebase.
-4. **Change Status to Collapsing**: Set Fold Ninja to automatically collapse certain sections (like comments or verbose error management in Go).
-4. **Change Status to Collapsing first**: Set Fold Ninja to automatically collapse first foldable section.
-5. **Change Status to Expanding**: Automatically expand all sections of your code.
-6. **Change Status to Inactive**: Deactivate Fold Ninja to view your code in its original state.
+1. **Inactive `{X}`**: In this mode, Fold Ninja is entirely inactive, allowing the code to be displayed in its original form, without any alterations.
 
-Accessing these options is simple:
-
-- Click on the Fold Ninja status bar item.
-- Choose your desired action from the menu.
-
-This update allows you to quickly switch between states without navigating through each status sequentially, enhancing your coding experience with more flexibility.
-
-### Fold Ninja Statuses
-
-Fold Ninja operates in three different statuses designed to enhance your code navigation and review experience:
-
-**1. Inactive `{X}`**
-
-In this status, Fold Ninja is completely dormant and inactive. It allows your code to be displayed in its full, original form. The experience is akin to not having the extension installed at all, preserving the unaltered view of your codebase.
-
-**2. Compact `{...}`**
-
-Compact mode is where the power of Fold Ninja truly shines. In this active state, the extension effortlessly folds away verbose parts of your code. This includes comments across any language and error management blocks in Go files, making it versatile for a range of coding environments. The outcome? A more streamlined, focused, and comprehensible view of your code, regardless of the language you're working in.
+2. **Compact `{...}`**: Ideal for code reviews, this mode folds away comments and specific code blocks (like error handling in Go) for a cleaner, more focused view. For example, in Go files, non-critical error handling lines are folded to emphasize the main logic.
 
 To illustrate, consider this block of Go code:
 
@@ -66,20 +43,42 @@ count, err := file.Read(data)
 fmt.Printf("read %d bytes: %q\n", count, data[:count])
 ~~~
 
-Here, Fold Ninja folds away the error handling code, resulting in a more compact code view that places the primary logic front and center. This enhances the clarity of your code, making it quicker to review and easier to understand.
+3. **Intermediate `{.|.}`**: A balance between the Compact and Expanded modes. Currently, this mode folds the first significant block of text in a file, typically a lengthy comment or license information. This feature is useful for immediately focusing on the primary content of the file.
 
+4. **Expanded `{<- ->}`**: Unfolds all sections of your code, providing a complete view with all details visible.
 
-**3. Expanded `{<- ->}`**
+Each mode is designed to enhance your coding experience by adapting to different needs, from detailed reviews to a broad overview of the code.
 
-The Expanded status unfolds any previously compacted sections. All parts of your code, including comments and error handling routines, are visible in this state.
+### Switching Between Working Modes
 
-**4. Collapse First Block `{.1.}`**
+Switching between the working modes in Fold Ninja is designed to be straightforward and user-friendly. Here's how you can easily navigate through the different modes:
 
-This status in Fold Ninja, is designed to simplify your initial view of a file by automatically collapsing the first significant block of text. This feature is particularly useful for files that start with extensive comments or licensing information, enabling you to immediately focus on the core content of the file. When activated, Fold Ninja will identify and fold the initial block or comment, streamlining your workflow and decluttering the visible code area. This addition enhances the extension's usability, especially when dealing with files containing standard header comments or documentation blocks.
+- **Access the Menu**: Simply click on the Fold Ninja icon located in the lower part of the editor. This icon displays the current working mode for easy identification.
+- **Select a Mode**: The menu that appears upon clicking the icon will list the following options for you to choose from:
+  - **Switch to Inactive Mode**: Deactivate Fold Ninja, reverting your code to its original, unaltered state.
+  - **Switch to Compact Mode**: Activate the mode that compacts your code by folding comments and certain code blocks for a streamlined view.
+  - **Switch to Intermediate Mode**: Opt for a balanced view that folds the first significant block in your file, such as extensive comments or license information.
+  - **Switch to Expanded Mode**: Fully expand all sections of your code for a comprehensive view.
+- **Execute Commands**: In addition to switching modes, you can directly execute commands like expand, compact, or intermediate for the current view from the same menu.
 
-Currently this feature is implemented for c, c++, c#, go, rust, javascript, typescript and python. If you are interested in adding another language please open an issue with an example of a source file of a language and a small description of how comments and strings work in that language.
+This intuitive interface ensures that you can efficiently manage your code's visibility with minimal disruption to your workflow.
 
-### Demo video
+## Configuration Options
+
+To enhance Fold Ninja's performance and adaptability, the following configuration options are available:
+
+1. **Maximum Number of Bytes for Folding Calculations**:
+   - Setting: `fold-ninja.maxNumberOfBytes`
+   - Default: 1,000,000 bytes
+   - Purpose: Sets a file size limit for performing folding calculations in general scenarios. Files larger than this limit won't have folding calculations applied, optimizing performance for extensive codebases.
+
+2. **Maximum Number of Bytes in Intense Mode**:
+   - Setting: `fold-ninja.maxNumberOfBytesIntenseMode`
+   - Default: 10,000 bytes
+   - Purpose: Specifies the file size limit for real-time folding updates (Intense Mode). This limit is particularly useful when immediate updates to folding regions are necessary, such as during active code editing in smaller files.
+
+These settings help manage the extension's performance by determining how it handles folding calculations based on file size, ensuring that Fold Ninja remains efficient and responsive to your coding needs.
+## Demo video
 
 ![](./doc/fold-ninja-demo.gif)
 

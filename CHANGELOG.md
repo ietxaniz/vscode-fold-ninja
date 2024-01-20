@@ -2,6 +2,17 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.4.0] - 2024-01-20
+
+- Configuration settings for folding calculation limits, enabling performance optimization.
+- Folding Calculation Modes: Intense (for real-time updates) and On-Demand (for folding calculations initiated by user actions).
+
+### Changed
+
+- Refactored the code to improve efficiency and adaptability.
+- Enhanced algorithm for more accurate folding in various programming languages.
+- Complete rewrite of folding logic.
+
 ## [0.3.0] - 2024-01-18
 
 ### Added
