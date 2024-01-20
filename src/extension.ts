@@ -2,15 +2,15 @@ import * as vscode from 'vscode';
 import * as command from './command'
 import * as event from './event'
 
-import { setGlobalState } from "./configuration/config";
 import { CStyleCommentFoldingRangeProvider } from './internal/foldProviders/CStyleCommentFoldingProvider';
+import { FoldNinjaState } from './configuration/FoldNinjaState';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
 	console.log('Activating fold-ninja extension');
-  setGlobalState(context.globalState);
+  FoldNinjaState.initialize(context);
 
 	context.subscriptions.push(vscode.commands.registerCommand('fold-ninja.toggleStatus', command.showMenuOptions));
   context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(event.onTextEditorActivated));

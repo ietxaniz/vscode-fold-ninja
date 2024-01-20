@@ -1,10 +1,18 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { ConfigType, Status } from "../configuration/config";
 import { foldGolangErrCheckerCode } from "./fold/foldGolangErrCheckerCode"
-import { StatusManager } from "./StatusManager";
+import { WorkingMode, FoldNinjaState } from "../configuration/FoldNinjaState";
+import { DocumentManager } from "./document/DocumentManager";
 
 export const unfoldCurrent = async () => {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    return;
+  }
+
+  const docStatus = DocumentManager.getDocument(editor.document.fileName);
+  await docStatus.getUpdateData(editor.document, WorkingMode.EXPANDED); // TODO: In this case we could remove computation...
+
   await vscode.commands.executeCommand("editor.unfoldAll");
 };
 
@@ -14,14 +22,15 @@ export const foldFirst = async () => {
     return;
   }
 
-  const fileName = editor.document.fileName;
-  const foldingRanges = StatusManager.getInstance().getFoldingRanges(fileName);
-  if (foldingRanges.length > 0) {
-    const firstFoldingRange = foldingRanges[0];
+  const docStatus = DocumentManager.getDocument(editor.document.fileName);
+  const ranges = await docStatus.getUpdateData(editor.document, WorkingMode.INTERMEDIATE);
+  if (ranges.length > 0) {
+    const originalSelection = editor.selection;
+    const firstFoldingRange = ranges[0];
 
     editor.selection = new vscode.Selection(firstFoldingRange.start, 0, firstFoldingRange.start, 0);
     await vscode.commands.executeCommand('editor.fold');
-    editor.selection = new vscode.Selection(0, 0, 0, 0);
+    editor.selection = originalSelection;
   }
 }
 
@@ -43,25 +52,26 @@ export const foldCurrent = async () => {
 
 };
 
-export const updateEditorStatus = async (config: ConfigType, forceAction:boolean) => {
+export const updateEditorStatus = async (forceAction:boolean) => {
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
     return;
   }
   const currentFileName = editor.document.fileName;
-  const currentFileContent = editor.document.getText();
-  const shouldUpdate = StatusManager.getInstance().update(currentFileName, currentFileContent, config.status);
+  const currentWorkingMode = FoldNinjaState.getWorkingMode();
+  const docStatus = DocumentManager.getDocument(currentFileName);
+  const shouldUpdate = docStatus.checkNeedsUpdateInEditor(editor.document, currentWorkingMode);
   if (shouldUpdate || forceAction) {
-    switch (config.status) {
-      case Status.Inactive:
+    switch (currentWorkingMode) {
+      case WorkingMode.INACTIVE:
         break;
-      case Status.Expanded:
+      case WorkingMode.EXPANDED:
         unfoldCurrent();
         break;
-      case Status.Compact:
+      case WorkingMode.COMPACT:
         foldCurrent();
         break;
-      case Status.FoldFirst:
+      case WorkingMode.INTERMEDIATE:
         foldFirst();
         break;
       default:

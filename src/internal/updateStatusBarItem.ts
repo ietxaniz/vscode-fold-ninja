@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Status, readConfig } from '../configuration/config';
+import { WorkingMode, FoldNinjaState } from '../configuration/FoldNinjaState';
 
 let statusBarItem: vscode.StatusBarItem;
 
@@ -7,29 +7,28 @@ export const updateStatusBarItem = () => {
   if (!statusBarItem) {
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
     statusBarItem.text = "{ }";
-    statusBarItem.tooltip = `Fold Ninja: ${Status.Inactive}`;
+    statusBarItem.tooltip = `Fold Ninja: ${WorkingMode.INACTIVE}`;
     statusBarItem.show();
     statusBarItem.command = "fold-ninja.toggleStatus";
   }
 
-  const config = readConfig();
-  const currentStatus = config.status;
+  const currentStatus = FoldNinjaState.getWorkingMode();
 
 
   switch (currentStatus) {
-    case 'inactive':
+    case WorkingMode.INACTIVE:
       statusBarItem.text = '{X}';
       statusBarItem.tooltip = 'Folding Ninja: inactive';
       break;
-    case 'compact':
+    case WorkingMode.COMPACT:
       statusBarItem.text = '{...}';
       statusBarItem.tooltip = 'Folding Ninja: compact';
       break;
-    case 'expanded':
+    case WorkingMode.EXPANDED:
       statusBarItem.text = '{<-  ->}';
       statusBarItem.tooltip = 'Folding Ninja: expanded';
       break;
-    case 'fold-first':
+    case WorkingMode.INTERMEDIATE:
       statusBarItem.text = '{.1.}';
       statusBarItem.tooltip = 'Folding Ninja: fold first item';
       break;

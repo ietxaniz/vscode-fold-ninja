@@ -2,7 +2,7 @@
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
   "description": "Fold Ninja is a Visual Studio Code extension that enhances code readability by automatically folding comments and verbose sections in various programming languages. It features specialized functionality for Golang error handling and supports a multitude of languages including TypeScript, JavaScript, C++, C#, Rust, and Python. This extension aims to streamline the code review process and improve focus by decluttering the code view.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "publisher": "ietxaniz",
   "icon": "doc/fold-ninja.png",
   "engines": {
@@ -37,6 +37,24 @@
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
+  "configuration": [
+    {
+      "type": "object",
+      "title": "Fold Ninja",
+      "properties": {
+        "fold-ninja.maxNumberOfBytes": {
+          "type": "number",
+          "default": 1000000,
+          "description": "Maximum number of bytes for files to perform folding calculations."
+        },
+        "fold-ninja.maxNumberOfBytesIntenseMode": {
+          "type": "number",
+          "default": 10000,
+          "description": "Maximum number of bytes for files to perform folding calculations in intense mode."
+        }
+      }
+    }
+  ],
   "contributes": {
     "commands": [
       {

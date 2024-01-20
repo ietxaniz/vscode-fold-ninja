@@ -1,8 +1,8 @@
 import * as vscode from "vscode";
 import * as action from "../internal/updateEditorStatus"
-import { setStatus } from "../internal/toggleStatus";
-import { Status } from "../configuration/config";
 import { updateStatusBarItem } from "../internal/updateStatusBarItem";
+import { WorkingMode, FoldNinjaState } from "../configuration/FoldNinjaState";
+import { updateEditorStatus } from '../internal/updateEditorStatus';
 
 export const showMenuOptions = async () => {
   const options = ["Collapse", "Collapse first", "Expand", "Change status to collapsing", "Change status to collapsing first", "Change status to expanding", "Change status to inactive"];
@@ -21,19 +21,23 @@ export const showMenuOptions = async () => {
       action.unfoldCurrent();
       break;
     case "Change status to collapsing":
-      setStatus(Status.Compact, false);
+      await FoldNinjaState.setWorkingMode(WorkingMode.COMPACT);
+      updateEditorStatus(false);
       updateStatusBarItem();
       break;
     case "Change status to collapsing first":
-      setStatus(Status.FoldFirst, false);
+      await FoldNinjaState.setWorkingMode(WorkingMode.INTERMEDIATE);
+      updateEditorStatus(false);
       updateStatusBarItem();
       break;
     case "Change status to expanding":
-      setStatus(Status.Expanded, false);
+      await FoldNinjaState.setWorkingMode(WorkingMode.EXPANDED);
+      updateEditorStatus(false);
       updateStatusBarItem();
       break;
     case "Change status to inactive":
-      setStatus(Status.Inactive, false);
+      await FoldNinjaState.setWorkingMode(WorkingMode.INACTIVE);
+      updateEditorStatus(false);
       updateStatusBarItem();
       break;
   }
