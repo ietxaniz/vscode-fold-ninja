@@ -53,7 +53,7 @@ const extensionConfig = {
     level: "log", // enables logging required for problem matchers
   },
   watchOptions: {
-    ignored: /node_modules|\.home/
+    ignored: /node_modules|\.home|dist|out/
   }
 };
 module.exports = [ extensionConfig ];
