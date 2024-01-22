@@ -1,3 +1,5 @@
+import { onClickFoldNinjaStaturBarItem } from "./onClickFoldNinjaStatusBarItem";
+import { onLoad } from "./onLoad";
 import { onTextEditorActivated } from "./onTextEditorActivated";
 
-export { onTextEditorActivated }
+export { onClickFoldNinjaStaturBarItem, onLoad, onTextEditorActivated };

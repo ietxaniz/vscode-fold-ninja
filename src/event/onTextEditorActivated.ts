@@ -1,5 +1,5 @@
-import { updateEditorStatus } from "../internal/updateEditorStatus";
+import { updateEditorStatus } from '../action/updateEditorStatus';
 
 export const onTextEditorActivated = async () => {
-  await updateEditorStatus(false);
-}
+    await updateEditorStatus(false);
+};

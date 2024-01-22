@@ -2,7 +2,7 @@
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
   "description": "Fold Ninja is a Visual Studio Code extension that enhances code readability by automatically folding comments and verbose sections in various programming languages. It features specialized functionality for Golang error handling and supports a multitude of languages including TypeScript, JavaScript, C++, C#, Rust, and Python. This extension aims to streamline the code review process and improve focus by decluttering the code view.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "publisher": "ietxaniz",
   "icon": "doc/fold-ninja.png",
   "engines": {
@@ -33,10 +33,8 @@
     "code readability",
     "developer tools"
   ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "main": "./out/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
   "contributes": {
     "configuration": [
       {
@@ -56,44 +54,41 @@
         }
       }
     ],
-    "commands": [
-      {
-        "command": "fold-ninja.toggleStatus",
-        "title": "fold ninja: toggle status"
-      }
-    ],
-    "keybindings": [
-      {
-        "command": "fold-ninja.toggleStatus",
-        "key": "shift+alt+r",
-        "mac": "shift+alt+r",
-        "when": "editorTextFocus"
-      }
-    ]
+    "commands": [{
+      "command": "fold-ninja.showMenuOptions",
+      "title": "fold ninja: show menu options"
+    }]
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/ietxaniz/vscode-fold-ninja"
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack && cp tree-sitter.wasm dist/",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map && cp tree-sitter.wasm dist/",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "20.2.5",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
     "@types/vscode": "^1.67.0",
-    "@typescript-eslint/eslint-plugin": "^6.9.1",
-    "@typescript-eslint/parser": "^6.9.1",
-    "@vscode/test-electron": "^2.3.2",
-    "eslint": "^8.41.0",
-    "glob": "^8.1.0",
-    "mocha": "^10.2.0",
-    "typescript": "^5.1.3"
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.8",
+    "eslint": "^8.56.0",
+    "tree-sitter-cli": "^0.20.8",
+    "tree-sitter-go": "^0.20.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
+    "web-tree-sitter": "^0.20.8",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
   }
 }
