@@ -1,3 +1,4 @@
+import { CFoldProvider } from "./CFoldProvider";
 import { GoFoldProvider } from "./GoFoldProvider";
 
-export { GoFoldProvider };
+export { CFoldProvider, GoFoldProvider };

@@ -61,6 +61,15 @@ export class DocumentItem {
             const Lang = await Parser.Language.load(path.join(__dirname, 'tree-sitter-go.wasm'));
             this._parser.setLanguage(Lang);
             this._parserLanguage = language;
+            return;
+        }
+        if (language === "tree-sitter-c.wasm") {
+            await Parser.init();
+            this._parser = new Parser();
+            const Lang = await Parser.Language.load(path.join(__dirname, 'tree-sitter-c.wasm'));
+            this._parser.setLanguage(Lang);
+            this._parserLanguage = language;
+            return;
         }
     }
 

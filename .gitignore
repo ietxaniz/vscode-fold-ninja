@@ -10,3 +10,4 @@ node_modules
 /a.out.wasm
 /tree-sitter-go.wasm
 /tree-sitter.wasm
+/tree-sitter-c.wasm
