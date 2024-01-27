@@ -33,14 +33,15 @@ export class GoFoldProvider implements FoldingRangeProvider {
 
   async computeFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken, limit: number): Promise<{ collector: FoldRangeCollector|null; computed: boolean }> {
     const documentItem = DocumentManager.getItem(document);
-    await documentItem.setParser(this._languageTreeParser); // Issue: this is an asynchronous call
-    if (document.getText().length > limit) {
+    await documentItem.setParser(this._languageTreeParser);
+    const text = document.getText();
+    if (text.length > limit) {
       return { collector: null, computed: false };
     }
     const parser = documentItem.parser; 
-    if (parser) { // Issue: this is always false in the first call
-      const tree = parser.parse(document.getText());
-      const collector = new FoldRangeCollector("//");
+    if (parser) {
+      const tree = parser.parse(text);
+      const collector = new FoldRangeCollector("//", text);
       const range = this.parse([tree.rootNode], collector);
       console.log(collector);
       return { collector: collector, computed: true };

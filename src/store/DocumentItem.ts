@@ -8,6 +8,7 @@ import { FoldingRange } from '../foldProviders/FoldingRange';
 import { FoldingRangeProvider } from '../foldProviders/FoldingRangeProvider';
 import { FoldNinjaConfiguration } from '../configuration/FoldNinjaConfiguration';
 import { FoldRangeCollector } from '../foldProviders/FoldRangeCollector';
+import { computeHash } from '../compute/computeHash';
 
 export class DocumentItem {
     private _document: vscode.TextDocument;
@@ -73,10 +74,55 @@ export class DocumentItem {
     }
 
     async updateDocument(mode:WorkingMode, modeTimestamp:number, force: boolean) {
-      // TODO: Check if document last updated timestamp is bigger than modeTimestamp. If so return
-      // TODO: Check that collector hash matches current documents hash, if not compute collector again
-      // TODO: Apply mode to document
-      // TODO: Update document timestamp
+      if (this._updatedTimestamp > modeTimestamp && !force) {
+        return;
+      }
+      this._updatedTimestamp = Date.now();
+      if (mode === WorkingMode.INACTIVE) {
+        return;
+      }
+      const currentHash = computeHash(this._document.getText());
+      let shouldCompute = false;
+      if (!this._collector) {
+        shouldCompute = true;
+      } else {
+        if (currentHash !== this._collector.hash) {
+          shouldCompute = true;
+        }
+      }
+      if (shouldCompute) {
+        if (this._foldProvider) {
+          const token: vscode.CancellationToken = new vscode.CancellationTokenSource().token;
+          const { collector, computed } = await this._foldProvider.computeFoldingRanges(this._document, {}, token, FoldNinjaConfiguration.getMaxNumberOfBytes());
+          if (computed) {
+            this._collector = collector;
+          }
+        }
+      }
+
+      switch(mode) {
+        case WorkingMode.COMPACT:
+          this.setCompact(this._collector);
+          return;
+        case WorkingMode.EXPANDED:
+          this.setExpanded(this._collector);
+          return;
+        case WorkingMode.INTERMEDIATE:
+          this.setIntermediate(this._collector);
+          return;
+      }
+    }
+
+    private setCompact(collector: FoldRangeCollector|null) {
+      // TODO: Set compact
+    }
+
+    private setIntermediate(collector: FoldRangeCollector|null) {
+      // TODO: Set intermediate
+    }
+
+    private setExpanded(collector: FoldRangeCollector|null) {
+      // TODO: Set expanded
     }
 
     setFoldData(collector:FoldRangeCollector | null) {
