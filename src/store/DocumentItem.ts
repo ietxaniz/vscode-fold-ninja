@@ -5,7 +5,7 @@ import path from 'path';
 
 import { WorkingMode } from '../configuration/FoldNinjaState';
 import { FoldingRange } from '../foldProviders/FoldingRange';
-import { BaseFoldProvider } from '../foldProviders/BaseFoldProvider';
+import { FoldingRangeProvider } from '../foldProviders/FoldingRangeProvider';
 import { FoldNinjaConfiguration } from '../configuration/FoldNinjaConfiguration';
 
 const computeHash = (content: string): string => {
@@ -23,7 +23,7 @@ export class DocumentItem {
     private _usedHash: string;
     private _workingMode: WorkingMode;
     private _computedRanges: FoldingRange[];
-    private _foldProvider: BaseFoldProvider | null;
+    private _foldProvider: FoldingRangeProvider | null;
 
     constructor(document: vscode.TextDocument) {
         this._document = document;
@@ -36,7 +36,7 @@ export class DocumentItem {
         this._foldProvider = null;
     }
 
-    set foldProvider(provider:BaseFoldProvider) {
+    set foldProvider(provider:FoldingRangeProvider) {
         this._foldProvider = provider;
     }
 
