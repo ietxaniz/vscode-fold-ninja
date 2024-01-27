@@ -7,10 +7,6 @@ import { FoldingRangeProvider } from "./FoldingRangeProvider";
 import { FoldRangeCollector } from "./FoldRangeCollector";
 
 export class GoFoldProvider implements FoldingRangeProvider {
-  // TODO: Fold multiline comment
-  // TODO: Fold consecutive line comments, that start with same comment definer
-  // TODO: Fold multiline: comment, import_declaration, function_declaration, short_var_declaration, assignment_statement
-  // TODO: Fold short_var_declaration or assign_statement that follows if statement with err != nil
 
   protected _languageTreeParser: string;
   protected _lineCommentTokens: string[];
@@ -20,8 +16,8 @@ export class GoFoldProvider implements FoldingRangeProvider {
     this._lineCommentTokens = ["//"];
   }
 
-  provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): ProviderResult<FoldingRange[]> {
-    const { range, computed } = this.computeFoldingRanges(document, context, token, FoldNinjaConfiguration.getMaxNumberOfBytesInIntenseMode());
+  async provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): Promise<FoldingRange[]> {
+    const { range, computed } = await this.computeFoldingRanges(document, context, token, FoldNinjaConfiguration.getMaxNumberOfBytesInIntenseMode());
     const documentItem = DocumentManager.getItem(document);
     documentItem.foldProvider = this;
     if (!computed) {
@@ -32,9 +28,9 @@ export class GoFoldProvider implements FoldingRangeProvider {
     return range;
   }
 
-  computeFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken, limit: number): { range: FoldingRange[]; computed: boolean } {
+  async computeFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken, limit: number): Promise<{ range: FoldingRange[]; computed: boolean }> {
     const documentItem = DocumentManager.getItem(document);
-    documentItem.setParser(this._languageTreeParser); // Issue: this is an asynchronous call
+    await documentItem.setParser(this._languageTreeParser); // Issue: this is an asynchronous call
     if (document.getText().length > limit) {
       return { range: [], computed: false };
     }
@@ -67,7 +63,7 @@ export class GoFoldProvider implements FoldingRangeProvider {
         this.processFoldingRangesInsideFunction(node, collector);
       }
       if (
-        (node.type === "short_var_declaration" || node.type === "assignment_statement" || node.type === "return_statement") &&
+        (node.type === "short_var_declaration" || node.type === "assignment_statement" || node.type === "return_statement" || node.type === "type_declaration") &&
         node.endPosition.row > node.startPosition.row
       ) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row));

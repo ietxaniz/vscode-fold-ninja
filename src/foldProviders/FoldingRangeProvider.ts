@@ -8,8 +8,8 @@ export interface FoldingRangeProvider extends vscode.FoldingRangeProvider {
     document: vscode.TextDocument,
     context: vscode.FoldingContext,
     token: vscode.CancellationToken,
-    limit: number): {
+    limit: number): Promise<{
       range: FoldingRange[],
       computed: boolean
-    }
+    }>
 }

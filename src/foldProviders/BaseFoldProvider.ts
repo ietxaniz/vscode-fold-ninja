@@ -17,8 +17,8 @@ export class BaseFoldProvider implements FoldingRangeProvider {
     protected _languageType: LanguageType;
     protected _getFoldingRangesInsideFunction: ((node: Parser.SyntaxNode)=>FoldingRange[])|null;
 
-    provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): ProviderResult<FoldingRange[]> {
-        const { range, computed } = this.computeFoldingRanges(document, context, token, FoldNinjaConfiguration.getMaxNumberOfBytesInIntenseMode());
+    async provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): Promise<FoldingRange[]> {
+        const { range, computed } = await this.computeFoldingRanges(document, context, token, FoldNinjaConfiguration.getMaxNumberOfBytesInIntenseMode());
         const documentItem = DocumentManager.getItem(document);
         documentItem.foldProvider = this;
         if (!computed) {
@@ -41,7 +41,7 @@ export class BaseFoldProvider implements FoldingRangeProvider {
         this._getFoldingRangesInsideFunction = fnc;
     }
 
-    computeFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken, limit: number): { range: FoldingRange[], computed: boolean } {
+    async computeFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken, limit: number): Promise<{ range: FoldingRange[], computed: boolean }> {
         const documentItem = DocumentManager.getItem(document);
         documentItem.setParser(this._languageTreeParser);
         if (document.getText().length > limit) {
