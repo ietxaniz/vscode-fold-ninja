@@ -1,15 +1,12 @@
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
-import { FoldingRange } from './FoldingRange';
-
+import { FoldRangeCollector } from "./FoldRangeCollector";
 
 export interface FoldingRangeProvider extends vscode.FoldingRangeProvider {
   computeFoldingRanges(
     document: vscode.TextDocument,
     context: vscode.FoldingContext,
     token: vscode.CancellationToken,
-    limit: number): Promise<{
-      range: FoldingRange[],
-      computed: boolean
-    }>
+    limit: number
+  ): Promise<{ collector: FoldRangeCollector | null; computed: boolean }>;
 }

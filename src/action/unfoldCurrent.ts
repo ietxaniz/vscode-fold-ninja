@@ -1,15 +1,15 @@
 import * as vscode from 'vscode'
 import { DocumentManager } from '../store/DocumentManager';
-import { WorkingMode } from '../configuration/FoldNinjaState';
+import { FoldNinjaState, WorkingMode } from '../configuration/FoldNinjaState';
 
-export const unfoldCurrent = async () => {
+export const unfoldCurrent = async (force:boolean) => {
     const editor = vscode.window.activeTextEditor;
   if (!editor) {
     return;
   }
 
   const docItem = DocumentManager.getItem(editor.document);
-  await docItem.getUpdateData(editor.document, WorkingMode.EXPANDED); // TODO: In this case we could remove computation...
+  const { timestamp } = FoldNinjaState.getWorkingMode();
 
-  await vscode.commands.executeCommand("editor.unfoldAll");
+  await docItem.updateDocument(WorkingMode.EXPANDED, timestamp, force)
 }

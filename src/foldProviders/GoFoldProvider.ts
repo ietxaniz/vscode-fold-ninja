@@ -17,22 +17,25 @@ export class GoFoldProvider implements FoldingRangeProvider {
   }
 
   async provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): Promise<FoldingRange[]> {
-    const { range, computed } = await this.computeFoldingRanges(document, context, token, FoldNinjaConfiguration.getMaxNumberOfBytesInIntenseMode());
+    const { collector, computed } = await this.computeFoldingRanges(document, context, token, FoldNinjaConfiguration.getMaxNumberOfBytesInIntenseMode());
     const documentItem = DocumentManager.getItem(document);
     documentItem.foldProvider = this;
     if (!computed) {
-      documentItem.resetComputedFoldingRange();
-      return range;
+      documentItem.setFoldData(null);
+      return [];
     }
-    documentItem.setComputedFoldingRange(document, range);
-    return range;
+    documentItem.setFoldData(collector);
+    if (collector) {
+      return collector.ranges;
+    }
+    return [];
   }
 
-  async computeFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken, limit: number): Promise<{ range: FoldingRange[]; computed: boolean }> {
+  async computeFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken, limit: number): Promise<{ collector: FoldRangeCollector|null; computed: boolean }> {
     const documentItem = DocumentManager.getItem(document);
     await documentItem.setParser(this._languageTreeParser); // Issue: this is an asynchronous call
     if (document.getText().length > limit) {
-      return { range: [], computed: false };
+      return { collector: null, computed: false };
     }
     const parser = documentItem.parser; 
     if (parser) { // Issue: this is always false in the first call
@@ -40,10 +43,10 @@ export class GoFoldProvider implements FoldingRangeProvider {
       const collector = new FoldRangeCollector("//");
       const range = this.parse([tree.rootNode], collector);
       console.log(collector);
-      return { range: collector.ranges, computed: true };
+      return { collector: collector, computed: true };
     }
     console.log("Parser not initialized");
-    return { range: [], computed: false };
+    return { collector: null, computed: false };
   }
 
   private parse(nodes: Parser.SyntaxNode[], collector: FoldRangeCollector) {

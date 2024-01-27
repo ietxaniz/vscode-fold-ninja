@@ -24,13 +24,13 @@ export const showMenuOptions = async () => {
 
     switch (selection) {
         case "Collapse current":
-            await foldCurrent();
+            await foldCurrent(true);
             break;
         case "Intermediate collapse current":
-            await foldIntermediateCurrent();
+            await foldIntermediateCurrent(true);
             break;
         case "Expand current":
-            await unfoldCurrent();
+            await unfoldCurrent(true);
             break;
         case "Change status to collapsing":
             await FoldNinjaState.setWorkingMode(WorkingMode.COMPACT);

@@ -7,33 +7,23 @@ import { WorkingMode } from '../configuration/FoldNinjaState';
 import { FoldingRange } from '../foldProviders/FoldingRange';
 import { FoldingRangeProvider } from '../foldProviders/FoldingRangeProvider';
 import { FoldNinjaConfiguration } from '../configuration/FoldNinjaConfiguration';
-
-const computeHash = (content: string): string => {
-    const hash = crypto.createHash('sha1');
-    hash.update(content);
-    return hash.digest('base64');
-}
-
+import { FoldRangeCollector } from '../foldProviders/FoldRangeCollector';
 
 export class DocumentItem {
     private _document: vscode.TextDocument;
     private _parser: Parser | null;
     private _parserLanguage: string;
-    private _computedHash: string;
-    private _usedHash: string;
-    private _workingMode: WorkingMode;
-    private _computedRanges: FoldingRange[];
     private _foldProvider: FoldingRangeProvider | null;
+    private _collector: FoldRangeCollector | null;
+    private _updatedTimestamp: number;
 
     constructor(document: vscode.TextDocument) {
         this._document = document;
         this._parserLanguage = "";
         this._parser = null;
-        this._computedHash = "";
-        this._usedHash = "";
-        this._workingMode = WorkingMode.INACTIVE;
-        this._computedRanges = [];
         this._foldProvider = null;
+        this._collector = null;
+        this._updatedTimestamp = 0;
     }
 
     set foldProvider(provider:FoldingRangeProvider) {
@@ -82,45 +72,14 @@ export class DocumentItem {
         return this._parser;
     }
 
-
-    checkNeedsUpdateInEditor(document: vscode.TextDocument, workingMode: WorkingMode): boolean {
-        const hashb64 = computeHash(document.getText());
-        if (this._workingMode === workingMode && this._computedHash === hashb64 && this._usedHash === hashb64) {
-            return false;
-        }
-        return true;
+    async updateDocument(mode:WorkingMode, modeTimestamp:number, force: boolean) {
+      // TODO: Check if document last updated timestamp is bigger than modeTimestamp. If so return
+      // TODO: Check that collector hash matches current documents hash, if not compute collector again
+      // TODO: Apply mode to document
+      // TODO: Update document timestamp
     }
 
-    resetComputedFoldingRange() {
-        this._computedHash = "";
-        this._computedRanges = [];
-    }
-
-    setComputedFoldingRange(document: vscode.TextDocument, computedFoldingRanges: FoldingRange[]) {
-        this._computedHash = computeHash(document.getText());
-        this._computedRanges = computedFoldingRanges;
-    }
-
-    async getUpdateData(document: vscode.TextDocument, workingMode: WorkingMode): Promise<FoldingRange[]> {
-        const hashb64 = computeHash(document.getText());
-        if (this._computedHash === hashb64) {
-            this._usedHash = hashb64;
-            this._workingMode = workingMode;
-            return this._computedRanges;
-        }
-        if (!this._foldProvider) {
-            return [];
-        }
-        const token: vscode.CancellationToken = new vscode.CancellationTokenSource().token;
-        const { range, computed } = await this._foldProvider.computeFoldingRanges(document, {}, token, FoldNinjaConfiguration.getMaxNumberOfBytes())
-        if (!computed) {
-            return [];
-        }
-        if (!range) {
-            return [];
-        }
-        this._usedHash = hashb64;
-        this._workingMode = workingMode;
-        return range;
+    setFoldData(collector:FoldRangeCollector | null) {
+      this._collector = collector;
     }
 }
