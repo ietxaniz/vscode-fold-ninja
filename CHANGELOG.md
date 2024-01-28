@@ -2,6 +2,16 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.4.5] - 2024-01-20
+
+### Added
+- Updated documentation to include 'Before and After' screenshots demonstrating the extension's impact on Go code readability.
+- Created standardized issue templates for GitHub to streamline feature requests and bug reporting processes.
+
+### Notes
+- The documentation update aims to provide clearer visual examples of Fold Ninja's functionality.
+- The new issue templates are designed to facilitate more structured and efficient feedback and requests from users.
+
 ## [0.4.4] - 2024-01-20
 
 ### Added
