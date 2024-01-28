@@ -13,25 +13,11 @@
   ],
   "keywords": [
     "fold",
-    "golang",
-    "go error handling",
-    "comments",
-    "hide",
+    "go fold",
     "code folding",
+    "golang",
     "code review",
-    "clean code",
-    "readability",
-    "typescript",
-    "javascript",
-    "csharp",
-    "c++",
-    "rust",
-    "python",
-    "multilanguage",
-    "coding",
-    "programming languages",
-    "code readability",
-    "developer tools"
+    "readability"
   ],
   "activationEvents": [
     "onStartupFinished"
