@@ -5,9 +5,12 @@
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)
 [![GitHub stars](https://img.shields.io/github/stars/ietxaniz/vscode-fold-ninja)](https://github.com/ietxaniz/vscode-fold-ninja/stargazers)
 
-Fold Ninja is an extension for Visual Studio Code, designed to boost code readability and efficiency in code reviews. With a spectrum of working modes - from Compact for a streamlined code review experience to Expanded for scenarios requiring an untouched code view, and an Intermediate mode offering customizable folding behavior - Fold Ninja adapts to your diverse coding needs. It also has a Inactive mode that temporarily disables the extension without the need to uninstall it.
+Fold Ninja is an extension for Visual Studio Code, designed to boost code readability and efficiency in code reviews. With a spectrum of working modes - from Compact for a streamlined code review experience to Expanded for scenarios requiring an untouched code view, and an Intermediate mode offering customizable folding behavior - Fold Ninja adapts to your diverse coding needs. It also has a Inactive mode that temporarily disables automatic folding actions.
 
-The extension triggers folding or unfolding actions as you navigate between files, considering any changes since your last view. Specifically tailored algorithms support a wide range of languages, including C, C++, Go, Rust, JavaScript, TypeScript, Python, and C#.
+The extension triggers folding or unfolding actions as you navigate between files, considering any changes since your last view.
+
+Currently, Fold Ninja is specifically optimized for Go language, providing tailored folding mechanisms that adapt intelligently as you switch between files and revisit code, accounting for any modifications made since your last view. Although initially focusing on Go, future updates aim to extend support to other popular programming languages such as C, C++, Rust, JavaScript, TypeScript, Python, and C#.
+
 
 ## Features and Usage
 
@@ -65,19 +68,31 @@ This intuitive interface ensures that you can efficiently manage your code's vis
 
 ## Configuration Options
 
-To enhance Fold Ninja's performance and adaptability, the following configuration options are available:
+Fold Ninja offers a range of configuration options to tailor its functionality to your coding needs. Below are the settings available, along with their purpose and default values:
 
 1. **Maximum Number of Bytes for Folding Calculations**:
    - Setting: `fold-ninja.maxNumberOfBytes`
    - Default: 1,000,000 bytes
-   - Purpose: Sets a file size limit for performing folding calculations in general scenarios. Files larger than this limit won't have folding calculations applied, optimizing performance for extensive codebases.
+   - Purpose: Sets the upper limit on the file size, in bytes, for which fold-ninja will perform folding calculations. This optimization ensures efficient performance, particularly for larger files.
 
-2. **Maximum Number of Bytes in Intense Mode**:
-   - Setting: `fold-ninja.maxNumberOfBytesIntenseMode`
-   - Default: 10,000 bytes
-   - Purpose: Specifies the file size limit for real-time folding updates (Intense Mode). This limit is particularly useful when immediate updates to folding regions are necessary, such as during active code editing in smaller files.
+2. **Fold Selection Matching**:
+   - Setting: `fold-ninja.foldSelection`
+   - Default: `false`
+   - Purpose: This setting controls whether Fold Ninja will fold a region of code that partially contains the current selection (where the user is actively working). When set to `false`, it prevents the folding of such regions, ensuring that the user's active work area remains unfolded for a smoother coding experience. If set to `true`, Fold Ninja will fold all identified regions, regardless of the user's current focus in the file.
 
-These settings help manage the extension's performance by determining how it handles folding calculations based on file size, ensuring that Fold Ninja remains efficient and responsive to your coding needs.
+3. **Language-Specific Folding Settings**:
+   - Setting: `fold-ninja.<language>-folded` and `fold-ninja.<language>-intermediate-folded`
+   - Purpose: Specifies comma-separated tags for folding in specific programming languages. There are separate settings for 'compact' and 'intermediate' modes, allowing for customized folding behavior based on your preferences and the language syntax.
+
+### Supported Languages and Customization Parameters
+
+| Language | Customization Parameters                           | Supported Tags                                 |
+|----------|----------------------------------------------------|----------------------------------------------|
+| Go       | `fold-ninja.go-folded`, `fold-ninja.go-intermediate-folded` | 'first-comment', 'comment', 'err', 'import', 'decl', 'func' |
+
+More languages will be supported in future updates, each with their own customizable folding tags to suit the unique syntax and structure of the language.
+
+
 ## Demo video
 
 ![](./doc/fold-ninja-demo.gif)

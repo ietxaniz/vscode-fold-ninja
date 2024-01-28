@@ -2,6 +2,31 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.4.4] - 2024-01-20
+
+### Added
+- Integration of language parsers based on tree-sitter (https://tree-sitter.github.io/tree-sitter/) for enhanced syntax analysis and folding accuracy.
+- Implementation of FoldingRangeProvider for Go, enabling real-time computation of folding ranges as you type.
+- Custom Go language parser and support for custom Go folding tags, allowing for tailored folding behavior in Go files.
+
+### Removed
+- Folding Calculation Modes, streamlining the extension's functionality and focusing on real-time updates.
+
+### Notes
+- This release marks a significant update with a focus on improving the experience for Go developers, laying the groundwork for future language support.
+
+## [0.4.3] - 2024-01-20
+
+- Minor improvements and bug fixes.
+
+## [0.4.2] - 2024-01-20
+
+- Minor improvements and bug fixes.
+
+## [0.4.1] - 2024-01-20
+
+- Internal optimizations and minor adjustments.
+
 ## [0.4.0] - 2024-01-20
 
 - Configuration settings for folding calculation limits, enabling performance optimization.

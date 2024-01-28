@@ -1,6 +1,6 @@
 import { FoldingRangeKind } from "vscode";
 import { computeHash } from "../compute/computeHash";
-import { FoldingRange } from "./FoldingRange";
+import { FoldingRange, FoldingRangeType } from "./FoldingRange";
 
 export class FoldRangeCollector {
   private _ranges: FoldingRange[];
@@ -57,7 +57,7 @@ export class FoldRangeCollector {
           endCommentLine = this._lineComments[i];
         } else {
           if (endCommentLine > startCommentLine) {
-            ranges.push(new FoldingRange(startCommentLine, endCommentLine, FoldingRangeKind.Comment));
+            ranges.push(new FoldingRange(startCommentLine, endCommentLine, FoldingRangeType.Comment));
           }
           startCommentLine = -1;
           endCommentLine = -1;
@@ -65,7 +65,7 @@ export class FoldRangeCollector {
       }
     }
     if (endCommentLine > startCommentLine) {
-      ranges.push(new FoldingRange(startCommentLine, endCommentLine, FoldingRangeKind.Comment));
+      ranges.push(new FoldingRange(startCommentLine, endCommentLine, FoldingRangeType.Comment));
     }
     return ranges;
   }

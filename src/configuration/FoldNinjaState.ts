@@ -15,7 +15,6 @@ export enum CalculationMode {
 export class FoldNinjaState {
   private static _vscodeMemento: vscode.Memento;
   private static _workingMode: WorkingMode | null = null;
-  private static _calculationMode: CalculationMode | null;
   private static _timestamp: number;
 
   public static initialize(context: vscode.ExtensionContext) {

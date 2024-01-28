@@ -2,7 +2,7 @@
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
   "description": "Fold Ninja is a Visual Studio Code extension that enhances code readability by automatically folding comments and verbose sections in various programming languages. It features specialized functionality for Golang error handling and supports a multitude of languages including TypeScript, JavaScript, C++, C#, Rust, and Python. This extension aims to streamline the code review process and improve focus by decluttering the code view.",
-  "version": "0.4.1",
+  "version": "0.4.4",
   "publisher": "ietxaniz",
   "icon": "doc/fold-ninja.png",
   "engines": {
@@ -46,12 +46,22 @@
           "fold-ninja.maxNumberOfBytes": {
             "type": "number",
             "default": 1000000,
-            "description": "Maximum number of bytes for files to perform folding calculations."
+            "description": "Sets the upper limit on file size, in bytes, for which fold-ninja will perform folding calculations."
           },
-          "fold-ninja.maxNumberOfBytesIntenseMode": {
-            "type": "number",
-            "default": 10000,
-            "description": "Maximum number of bytes for files to perform folding calculations in intense mode."
+          "fold-ninja.foldSelection": {
+            "type": "boolean",
+            "default": false,
+            "description": "Determines whether a text region, if it partially matches the window's selection, should be allowed to fold."
+          },
+          "fold-ninja.go-folded": {
+            "type": "string",
+            "default": "comment,err,import,decl",
+            "description": "Specifies comma separated tags (e.g., 'first-comment', 'comment', 'err', 'import', 'decl', 'func) in Go language files that will be folded in compact mode."
+          },
+          "fold-ninja.go-intermediate-folded": {
+            "type": "string",
+            "default": "first-comment,err",
+            "description": "Specifies comma separated tags (e.g., 'first-comment', 'comment', 'err', 'import', 'decl', 'func') in Go language files that will be folded in intermediate mode."
           }
         }
       }

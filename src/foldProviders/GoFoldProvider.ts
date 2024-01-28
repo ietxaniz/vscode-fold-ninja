@@ -1,5 +1,5 @@
 import { TextDocument, FoldingContext, CancellationToken, ProviderResult, FoldingRangeKind } from "vscode";
-import { FoldingRange } from "./FoldingRange";
+import { FoldingRange, FoldingRangeType } from "./FoldingRange";
 import Parser from "web-tree-sitter";
 import { DocumentManager } from "../store/DocumentManager";
 import { FoldNinjaConfiguration } from "../configuration/FoldNinjaConfiguration";
@@ -17,7 +17,7 @@ export class GoFoldProvider implements FoldingRangeProvider {
   }
 
   async provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): Promise<FoldingRange[]> {
-    const { collector, computed } = await this.computeFoldingRanges(document, context, token, FoldNinjaConfiguration.getMaxNumberOfBytesInIntenseMode());
+    const { collector, computed } = await this.computeFoldingRanges(document, context, token, FoldNinjaConfiguration.getMaxNumberOfBytes());
     const documentItem = DocumentManager.getItem(document);
     documentItem.foldProvider = this;
     if (!computed) {
@@ -52,23 +52,24 @@ export class GoFoldProvider implements FoldingRangeProvider {
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
       if (node.type === "comment" && node.endPosition.row > node.startPosition.row) {
-        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeKind.Comment, false));
+        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Comment));
       }
       if (node.type === "import_declaration" && node.endPosition.row > node.startPosition.row) {
-        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeKind.Imports, false));
+        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Import));
       }
       if (node.type === "function_declaration" && node.endPosition.row > node.startPosition.row) {
-        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row));
+        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Function));
         this.processFoldingRangesInsideFunction(node, collector);
       }
       if (node.type === "func_literal" && node.endPosition.row > node.startPosition.row) {
+        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Function));
         this.processFoldingRangesInsideFunction(node, collector);
       }
       if (
-        (node.type === "short_var_declaration" || node.type === "assignment_statement" || node.type === "return_statement" || node.type === "type_declaration") &&
+        (node.type === "short_var_declaration" || node.type === "assignment_statement"  || node.type === "type_declaration") &&
         node.endPosition.row > node.startPosition.row
       ) {
-        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row));
+        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Declaration));
       }
       this.parse(node.children, collector);
     }
@@ -90,7 +91,7 @@ export class GoFoldProvider implements FoldingRangeProvider {
             const startLine = current.startPosition.row;
             const endLine = next.endPosition.row;
             if (startLine < endLine) {
-              collector.addFoldingRange(new FoldingRange(startLine, endLine));
+              collector.addFoldingRange(new FoldingRange(startLine, endLine, FoldingRangeType.Error));
             }
           }
         }

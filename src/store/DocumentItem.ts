@@ -7,6 +7,7 @@ import { FoldingRangeProvider } from '../foldProviders/FoldingRangeProvider';
 import { FoldNinjaConfiguration } from '../configuration/FoldNinjaConfiguration';
 import { FoldRangeCollector } from '../foldProviders/FoldRangeCollector';
 import { computeHash } from '../compute/computeHash';
+import { FoldingRange } from '../foldProviders/FoldingRange';
 
 export class DocumentItem {
     private _document: vscode.TextDocument;
@@ -100,13 +101,15 @@ export class DocumentItem {
 
       switch(mode) {
         case WorkingMode.COMPACT:
-          this.setCompact(this._collector);
+          // this.setCompact(this._collector);
+          this.setCustomFold(this._collector, FoldNinjaConfiguration.getFolded(this._parserLanguage));
           return;
         case WorkingMode.EXPANDED:
-          this.setExpanded(this._collector);
+          this.setExpanded();
           return;
         case WorkingMode.INTERMEDIATE:
-          this.setIntermediate(this._collector);
+          // this.setIntermediate(this._collector);
+          this.setCustomFold(this._collector, FoldNinjaConfiguration.getIntermediateFolded(this._parserLanguage));
           return;
       }
     }
@@ -155,8 +158,46 @@ export class DocumentItem {
       editor.selection = currentSelection;
     }
 
-    private async setExpanded(collector: FoldRangeCollector|null) {
+    private async setExpanded() {
       await vscode.commands.executeCommand("editor.unfoldAll");
+    }
+
+    private async setCustomFold(collector: FoldRangeCollector|null, items: string) {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        return;
+      }
+      if (!collector) {
+        await vscode.commands.executeCommand("editor.foldAllBlockComments");
+        return;
+      }
+      const { addFirstComment, types } = FoldingRange.getTypesFromString(items);
+      const ranges:FoldingRange[] = [];
+      if (addFirstComment) {
+        const firstComment = collector.firstComment;
+        if (firstComment) {
+          ranges.push(firstComment);
+        }
+      }
+      for (let i=0; i<collector.ranges.length; i++) {
+        const range = collector.ranges[i];
+        if (types.indexOf(range.foldType) >= 0) {
+          ranges.push(range);
+        }
+      }
+      const currentSelection = editor.selection;
+      const selectionStart = FoldNinjaConfiguration.getFoldSelection() ? currentSelection.start.line : -1;
+      const selectionEnd = FoldNinjaConfiguration.getFoldSelection() ? currentSelection.end.line : -1;
+      const selectionsToFold:vscode.Selection[] = [];
+      for (let i=0; i<ranges.length;i++) {
+        const range = ranges[i];
+        if (selectionStart < range.start || selectionEnd > range.end) {
+          selectionsToFold.push(new vscode.Selection(range.start, 0, range.end, editor.document.lineAt(range.end).text.length));
+        }
+      }
+      editor.selections = selectionsToFold;
+      await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
+      editor.selection = currentSelection;
     }
 
     setFoldData(collector:FoldRangeCollector | null) {
