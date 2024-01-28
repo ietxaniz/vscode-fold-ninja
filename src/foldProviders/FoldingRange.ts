@@ -7,6 +7,8 @@ export enum FoldingRangeType {
   Function = "func",
   Error = "err",
   Declaration = "decl",
+  Class = "class",
+  Jsx = "jsx",
 }
 
 export class FoldingRange extends vscode.FoldingRange {

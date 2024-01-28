@@ -11,11 +11,17 @@ export class FoldNinjaConfiguration {
     if (language === "tree-sitter-go.wasm"){
       return vscode.workspace.getConfiguration('fold-ninja').get<string>('go-folded', 'comment,err,import,decl');
     }
+    if (language === "tree-sitter-tsx.wasm"){
+      return vscode.workspace.getConfiguration('fold-ninja').get<string>('tsx-folded', 'import,comment,func,decl,jsx,class');
+    }
     return "";
   }
   public static getIntermediateFolded(language:string):string {
     if (language === "tree-sitter-go.wasm"){
       return vscode.workspace.getConfiguration('fold-ninja').get<string>('go-intermediate-folded', 'first-comment,err');
+    }
+    if (language === "tree-sitter-tsx.wasm"){
+      return vscode.workspace.getConfiguration('fold-ninja').get<string>('tsx-intermediate-folded', 'import,first-comment,func,decl,jsx,class');
     }
     return "";
   }

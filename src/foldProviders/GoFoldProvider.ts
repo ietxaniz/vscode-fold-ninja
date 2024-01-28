@@ -1,6 +1,6 @@
 import { TextDocument, FoldingContext, CancellationToken, ProviderResult, FoldingRangeKind } from "vscode";
-import { FoldingRange, FoldingRangeType } from "./FoldingRange";
 import Parser from "web-tree-sitter";
+import { FoldingRange, FoldingRangeType } from "./FoldingRange";
 import { DocumentManager } from "../store/DocumentManager";
 import { FoldNinjaConfiguration } from "../configuration/FoldNinjaConfiguration";
 import { FoldingRangeProvider } from "./FoldingRangeProvider";
@@ -9,11 +9,9 @@ import { FoldRangeCollector } from "./FoldRangeCollector";
 export class GoFoldProvider implements FoldingRangeProvider {
 
   protected _languageTreeParser: string;
-  protected _lineCommentTokens: string[];
 
   constructor() {
     this._languageTreeParser = "tree-sitter-go.wasm";
-    this._lineCommentTokens = ["//"];
   }
 
   async provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): Promise<FoldingRange[]> {

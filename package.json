@@ -2,7 +2,7 @@
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
   "description": "Fold Ninja is a Visual Studio Code extension that enhances code readability by automatically folding comments and verbose sections in various programming languages. It features specialized functionality for Golang error handling and supports a multitude of languages including TypeScript, JavaScript, C++, C#, Rust, and Python. This extension aims to streamline the code review process and improve focus by decluttering the code view.",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "publisher": "ietxaniz",
   "icon": "doc/fold-ninja.png",
   "engines": {
@@ -48,7 +48,18 @@
             "type": "string",
             "default": "first-comment,err",
             "description": "Specifies comma separated tags (e.g., 'first-comment', 'comment', 'err', 'import', 'decl', 'func') in Go language files that will be folded in intermediate mode."
+          },
+          "fold-ninja.tsx-folded": {
+            "type": "string",
+            "default": "import,comment,func,decl,jsx,class",
+            "description": "Specifies comma separated tags in tsx language files that will be folded in compact mode."
+          },
+          "fold-ninja.tsx-intermediate-folded": {
+            "type": "string",
+            "default": "import,first-comment,func,decl,jsx,class",
+            "description": "Specifies comma separated tags in tsx language files that will be folded in intermediate mode."
           }
+
         }
       }
     ],
@@ -87,6 +98,7 @@
     "tree-sitter-c": "^0.20.7",
     "tree-sitter-cli": "^0.20.8",
     "tree-sitter-go": "^0.20.0",
+    "tree-sitter-typescript": "^0.20.3",
     "ts-loader": "^9.5.1",
     "typescript": "^5.3.3",
     "web-tree-sitter": "^0.20.8",

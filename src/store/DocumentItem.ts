@@ -61,6 +61,14 @@ export class DocumentItem {
             this._parserLanguage = language;
             return;
         }
+        if (language === "tree-sitter-tsx.wasm") {
+          await Parser.init();
+          this._parser = new Parser();
+          const Lang = await Parser.Language.load(path.join(__dirname, 'tree-sitter-tsx.wasm'));
+          this._parser.setLanguage(Lang);
+          this._parserLanguage = language;
+          return;
+      }
     }
 
     async removeParser() {
@@ -188,15 +196,17 @@ export class DocumentItem {
       const currentSelection = editor.selection;
       const selectionStart = FoldNinjaConfiguration.getFoldSelection() ? currentSelection.start.line : -1;
       const selectionEnd = FoldNinjaConfiguration.getFoldSelection() ? currentSelection.end.line : -1;
-      const selectionsToFold:vscode.Selection[] = [];
+      // const selectionsToFold:vscode.Selection[] = [];
       for (let i=0; i<ranges.length;i++) {
         const range = ranges[i];
         if (selectionStart < range.start || selectionEnd > range.end) {
-          selectionsToFold.push(new vscode.Selection(range.start, 0, range.end, editor.document.lineAt(range.end).text.length));
+          // selectionsToFold.push(new vscode.Selection(range.start, 0, range.end, editor.document.lineAt(range.end).text.length));
+          editor.selection = new vscode.Selection(range.start, 0, range.end, editor.document.lineAt(range.end).text.length);
+          await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
         }
       }
-      editor.selections = selectionsToFold;
-      await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
+      // editor.selections = selectionsToFold;
+      // await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
       editor.selection = currentSelection;
     }
 
