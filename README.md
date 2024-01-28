@@ -96,7 +96,7 @@ More languages will be supported in future updates, each with their own customiz
 
 ### Go Error Handling with Fold Ninja
 
-The images below demonstrate how Fold Ninja enhances code readability by folding verbose error handling in Go. The 'Before' image shows the original code, while the 'After' image illustrates how Fold Ninja neatly folds away less critical lines, reducing clutter without hiding any important parts of the code.
+The images below demonstrate how Fold Ninja enhances code readability by folding verbose error handling in Go. The 'Before' image on the left shows the original code, while the 'After' image on the right illustrates how Fold Ninja neatly folds away less critical lines, reducing clutter without hiding any important parts of the code.
 
 ![Go Error Handling - Before and After using Fold Ninja](./doc/images/go-errors-comparison.png)
 
