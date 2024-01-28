@@ -2,7 +2,7 @@
 name: Feature Request
 about: Generic feature request.
 title: "[Request]: "
-labels: ["enhancement"]
+labels: ["generic_feature"]
 assignees: ''
 ---
 # Generic Feature Request

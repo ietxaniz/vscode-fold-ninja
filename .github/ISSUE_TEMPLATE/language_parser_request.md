@@ -2,7 +2,7 @@
 name: Language Parser Request
 about: Request to implement a parser for a new programming language.
 title: "[Parser Request]: "
-labels: ["parser request", "enhancement"]
+labels: ["language_request"]
 assignees: ''
 ---
 
