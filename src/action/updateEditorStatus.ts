@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import { DocumentManager } from "../store/DocumentManager";
 import { FoldNinjaState, WorkingMode } from "../configuration/FoldNinjaState";
 
 import { foldCurrent } from "./foldCurrent";

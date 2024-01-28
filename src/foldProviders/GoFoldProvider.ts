@@ -42,11 +42,9 @@ export class GoFoldProvider implements FoldingRangeProvider {
     if (parser) {
       const tree = parser.parse(text);
       const collector = new FoldRangeCollector("//", text);
-      const range = this.parse([tree.rootNode], collector);
-      console.log(collector);
+      this.parse([tree.rootNode], collector);
       return { collector: collector, computed: true };
     }
-    console.log("Parser not initialized");
     return { collector: null, computed: false };
   }
 

@@ -1,10 +1,8 @@
 import * as vscode from 'vscode'
-import * as crypto from 'crypto'
 import Parser from 'web-tree-sitter'
 import path from 'path';
 
-import { WorkingMode } from '../configuration/FoldNinjaState';
-import { FoldingRange } from '../foldProviders/FoldingRange';
+import { FoldNinjaState, WorkingMode } from '../configuration/FoldNinjaState';
 import { FoldingRangeProvider } from '../foldProviders/FoldingRangeProvider';
 import { FoldNinjaConfiguration } from '../configuration/FoldNinjaConfiguration';
 import { FoldRangeCollector } from '../foldProviders/FoldRangeCollector';
@@ -113,19 +111,65 @@ export class DocumentItem {
       }
     }
 
-    private setCompact(collector: FoldRangeCollector|null) {
-      // TODO: Set compact
+    private async setCompact(collector: FoldRangeCollector|null) {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        return;
+      }
+      if (!collector) {
+        await vscode.commands.executeCommand("editor.foldAllBlockComments");
+        return;
+      }
+      const ranges = collector.ranges;
+      const currentSelection = editor.selection;
+      const selectionStart = currentSelection.start.line;
+      const selectionEnd = currentSelection.end.line;
+      const selectionsToFold:vscode.Selection[] = [];
+      for (let i=0; i<ranges.length;i++) {
+        const range = ranges[i];
+        if (selectionStart < range.start || selectionEnd > range.end) {
+          selectionsToFold.push(new vscode.Selection(range.start, 0, range.end, editor.document.lineAt(range.end).text.length));
+        }
+      }
+      editor.selections = selectionsToFold;
+      await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
+      editor.selection = currentSelection;
     }
 
-    private setIntermediate(collector: FoldRangeCollector|null) {
-      // TODO: Set intermediate
+    private async setIntermediate(collector: FoldRangeCollector|null) {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        return;
+      }
+      if (!collector) {
+        await vscode.commands.executeCommand("editor.foldAllBlockComments");
+        return;
+      }
+      const range = collector.firstComment;
+      if (!range) {
+        return;
+      }
+      const currentSelection = editor.selection;
+      editor.selection = new vscode.Selection(range.start, 0, range.end, editor.document.lineAt(range.end).text.length);
+      await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
+      editor.selection = currentSelection;
     }
 
-    private setExpanded(collector: FoldRangeCollector|null) {
-      // TODO: Set expanded
+    private async setExpanded(collector: FoldRangeCollector|null) {
+      await vscode.commands.executeCommand("editor.unfoldAll");
     }
 
     setFoldData(collector:FoldRangeCollector | null) {
+      let shouldUpdate = false;
+      if (!this._collector && collector) {
+        // first time collector is added, updateDocument is triggered before collector is created. So we need to call updateDocument again
+        shouldUpdate = true;
+      }
       this._collector = collector;
+      if (shouldUpdate) {
+        this._updatedTimestamp = 0;
+        const { mode, timestamp } = FoldNinjaState.getWorkingMode();
+        this.updateDocument(mode, timestamp, false);
+      }
     }
 }
