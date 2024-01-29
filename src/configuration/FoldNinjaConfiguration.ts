@@ -12,7 +12,7 @@ export class FoldNinjaConfiguration {
       return vscode.workspace.getConfiguration('fold-ninja').get<string>('go-folded', 'comment,err,import,decl');
     }
     if (language === "tree-sitter-c.wasm"){
-      return vscode.workspace.getConfiguration('fold-ninja').get<string>('c-folded', 'comment,import,decl');
+      return vscode.workspace.getConfiguration('fold-ninja').get<string>('c-folded', 'comment,import,decl,func');
     }
     if (language === "tree-sitter-tsx.wasm"){
       return vscode.workspace.getConfiguration('fold-ninja').get<string>('tsx-folded', 'import,comment,func,decl,jsx,class');

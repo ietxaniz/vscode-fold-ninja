@@ -40,6 +40,7 @@ export class CFoldProvider implements FoldingRangeProvider {
     if (parser) {
       const tree = parser.parse(text);
       const collector = new FoldRangeCollector("//", text);
+      this.parsePreproc(tree.rootNode.children, collector);
       this.parse([tree.rootNode], collector);
       return { collector: collector, computed: true };
     }
@@ -55,7 +56,7 @@ export class CFoldProvider implements FoldingRangeProvider {
       if (node.type === "import_declaration" && node.endPosition.row > node.startPosition.row) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Import));
       }
-      if (node.type === "function_declaration" && node.endPosition.row > node.startPosition.row) {
+      if (node.type === "function_definition" && node.endPosition.row > node.startPosition.row) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Function));
       }
       if (
@@ -65,6 +66,24 @@ export class CFoldProvider implements FoldingRangeProvider {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Declaration));
       }
       this.parse(node.children, collector);
+    }
+  }
+
+  private parsePreproc(nodes: Parser.SyntaxNode[], collector: FoldRangeCollector) {
+    let startIndex = -1;
+    let endIndex = -1;
+    for (let i = 0; i < nodes.length; i++) {
+      if (nodes[i].type === "preproc_include" || nodes[i].type === "preproc_ifdef" || nodes[i].type === "preproc_def") {
+        if (startIndex < 0) {
+          startIndex = nodes[i].startPosition.row;
+        }
+        endIndex = nodes[i].endPosition.row;
+      } else {
+        break;
+      }
+    }
+    if (startIndex < endIndex) {
+      collector.addFoldingRange(new FoldingRange(startIndex, endIndex, FoldingRangeType.Import));
     }
   }
 }

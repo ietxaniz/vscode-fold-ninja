@@ -2,7 +2,7 @@
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
   "description": "Enhance code readability by folding (manually or automatically) verbose sections and comments across multiple languages.",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "publisher": "ietxaniz",
   "icon": "doc/fold-ninja.png",
   "engines": {
@@ -43,7 +43,7 @@
           },
           "fold-ninja.c-folded": {
             "type": "string",
-            "default": "comment,import,decl",
+            "default": "comment,import,decl,func",
             "description": "Specifies comma separated tags in C language files that will be folded in compact mode."
           },
           "fold-ninja.c-intermediate-folded": {

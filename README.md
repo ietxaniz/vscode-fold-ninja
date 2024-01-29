@@ -9,7 +9,7 @@ Fold Ninja is an extension for Visual Studio Code, designed to boost code readab
 
 The extension triggers folding or unfolding actions as you navigate between files, considering any changes since your last view.
 
-Fold Ninja currently supports the Go language, TSX (React) and typescript. Future updates aim to extend support to other popular programming languages such as C, C++, Rust, JavaScript, TypeScript, Python, and C#.
+Fold Ninja currently supports the Go language, TSX (React), typescript and C. Future updates aim to extend support to other popular programming languages such as C++, Rust, JavaScript, Python, and C#.
 
 
 ## Screenshots
@@ -96,8 +96,10 @@ Fold Ninja offers a range of configuration options to tailor its functionality t
 
 | Language | Customization Parameters                           | Supported Tags                                 |
 |----------|----------------------------------------------------|----------------------------------------------|
+| C       | `fold-ninja.x-folded`, `fold-ninja.c-intermediate-folded` | 'first-comment', 'comment', 'import', 'decl', 'func' |
 | Go       | `fold-ninja.go-folded`, `fold-ninja.go-intermediate-folded` | 'first-comment', 'comment', 'err', 'import', 'decl', 'func' |
 | tsx (react)| `fold-ninja.tsx-folded`, `fold-ninja.tsx-intermediate-folded` | 'first-comment', 'comment', 'import', 'decl', 'func', 'jsx', 'class' |
+| typescript| `fold-ninja.typescript-folded`, `fold-ninja.typescript-intermediate-folded` | 'first-comment', 'comment', 'import', 'decl', 'func', 'class' |
 
 More languages will be supported in future updates, each with their own customizable folding tags to suit the unique syntax and structure of the language.
 
