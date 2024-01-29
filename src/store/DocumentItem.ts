@@ -202,20 +202,26 @@ export class DocumentItem {
         }
       }
       const currentSelection = editor.selection;
-      const selectionStart = FoldNinjaConfiguration.getFoldSelection() ? currentSelection.start.line : -1;
-      const selectionEnd = FoldNinjaConfiguration.getFoldSelection() ? currentSelection.end.line : -1;
-      // const selectionsToFold:vscode.Selection[] = [];
+      const { selectionStart, selectionEnd } = this.getSelectionStartAndEnd(editor);
       for (let i=0; i<ranges.length;i++) {
         const range = ranges[i];
         if (selectionStart < range.start || selectionEnd > range.end) {
-          // selectionsToFold.push(new vscode.Selection(range.start, 0, range.end, editor.document.lineAt(range.end).text.length));
           editor.selection = new vscode.Selection(range.start, 0, range.end, editor.document.lineAt(range.end).text.length);
           await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
         }
       }
-      // editor.selections = selectionsToFold;
-      // await vscode.commands.executeCommand("editor.createFoldingRangeFromSelection");
       editor.selection = currentSelection;
+    }
+
+    private getSelectionStartAndEnd(editor:vscode.TextEditor):{selectionStart: number, selectionEnd: number} {
+      if (FoldNinjaConfiguration.getFoldSelection()) {
+        return { selectionStart: -1, selectionEnd: -1};
+      }
+      const currentSelection = editor.selection;
+      if (currentSelection.start.line >= 0 && currentSelection.end.line >=0) {
+        return {selectionStart: currentSelection.start.line, selectionEnd: currentSelection.start.line};
+      }
+      return {selectionStart: currentSelection.active.line, selectionEnd: currentSelection.active.line};
     }
 
     setFoldData(collector:FoldRangeCollector | null) {

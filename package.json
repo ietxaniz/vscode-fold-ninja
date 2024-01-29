@@ -2,7 +2,7 @@
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
   "description": "Enhance code readability by folding (manually or automatically) verbose sections and comments across multiple languages.",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "publisher": "ietxaniz",
   "icon": "doc/fold-ninja.png",
   "engines": {

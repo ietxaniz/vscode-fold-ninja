@@ -2,6 +2,14 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.4.9] - 2024-01-21
+- Bug. Cursor position was folded when `fold-ninja.foldSelection` was not checked.
+
+## [0.4.8] - 2024-01-21
+
+### Added
+- Add C language support
+
 ## [0.4.7] - 2024-01-20
 
 ### Added
