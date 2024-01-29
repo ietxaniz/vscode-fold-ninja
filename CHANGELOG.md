@@ -2,6 +2,11 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.4.7] - 2024-01-20
+
+### Added
+- Add typescript language support
+
 ## [0.4.6] - 2024-01-20
 
 ### Added

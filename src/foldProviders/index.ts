@@ -1,4 +1,6 @@
+import { CFoldProvider } from "./CFoldProvider";
 import { GoFoldProvider } from "./GoFoldProvider";
 import { TsxFoldProvider } from "./TsxFoldProvider";
+import { TypescriptFoldProvider } from "./TypescriptFoldProvider";
 
-export { GoFoldProvider, TsxFoldProvider };
+export { CFoldProvider, GoFoldProvider, TsxFoldProvider, TypescriptFoldProvider };

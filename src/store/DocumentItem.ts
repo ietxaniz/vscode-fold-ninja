@@ -69,7 +69,15 @@ export class DocumentItem {
           this._parserLanguage = language;
           return;
       }
+      if (language === "tree-sitter-typescript.wasm") {
+        await Parser.init();
+        this._parser = new Parser();
+        const Lang = await Parser.Language.load(path.join(__dirname, 'tree-sitter-typescript.wasm'));
+        this._parser.setLanguage(Lang);
+        this._parserLanguage = language;
+        return;
     }
+  }
 
     async removeParser() {
         this._parser = null;

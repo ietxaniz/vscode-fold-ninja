@@ -9,8 +9,16 @@ Fold Ninja is an extension for Visual Studio Code, designed to boost code readab
 
 The extension triggers folding or unfolding actions as you navigate between files, considering any changes since your last view.
 
-Fold Ninja currently supports the Go language and TSX (React). Future updates aim to extend support to other popular programming languages such as C, C++, Rust, JavaScript, TypeScript, Python, and C#.
+Fold Ninja currently supports the Go language, TSX (React) and typescript. Future updates aim to extend support to other popular programming languages such as C, C++, Rust, JavaScript, TypeScript, Python, and C#.
 
+
+## Screenshots
+
+### Go Error Handling with Fold Ninja
+
+The images below demonstrate how Fold Ninja enhances code readability by folding verbose error handling in Go. The 'Before' image on the left shows the original code, while the 'After' image on the right illustrates how Fold Ninja neatly folds away less critical lines, reducing clutter without hiding any important parts of the code.
+
+![Go Error Handling - Before and After using Fold Ninja](./doc/images/go-errors-comparison.png)
 
 ## Features and Usage
 
@@ -92,14 +100,6 @@ Fold Ninja offers a range of configuration options to tailor its functionality t
 | tsx (react)| `fold-ninja.tsx-folded`, `fold-ninja.tsx-intermediate-folded` | 'first-comment', 'comment', 'import', 'decl', 'func', 'jsx', 'class' |
 
 More languages will be supported in future updates, each with their own customizable folding tags to suit the unique syntax and structure of the language.
-
-## Screenshots
-
-### Go Error Handling with Fold Ninja
-
-The images below demonstrate how Fold Ninja enhances code readability by folding verbose error handling in Go. The 'Before' image on the left shows the original code, while the 'After' image on the right illustrates how Fold Ninja neatly folds away less critical lines, reducing clutter without hiding any important parts of the code.
-
-![Go Error Handling - Before and After using Fold Ninja](./doc/images/go-errors-comparison.png)
 
 ## Demo video
 

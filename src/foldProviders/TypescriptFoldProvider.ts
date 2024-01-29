@@ -6,11 +6,11 @@ import { FoldNinjaConfiguration } from "../configuration/FoldNinjaConfiguration"
 import { FoldingRangeProvider } from "./FoldingRangeProvider";
 import { FoldRangeCollector } from "./FoldRangeCollector";
 
-export class TsxFoldProvider implements FoldingRangeProvider {
+export class TypescriptFoldProvider implements FoldingRangeProvider {
   protected _languageTreeParser: string;
 
   constructor() {
-    this._languageTreeParser = "tree-sitter-tsx.wasm";
+    this._languageTreeParser = "tree-sitter-typescript.wasm";
   }
 
   async provideFoldingRanges(document: TextDocument, context: FoldingContext, token: CancellationToken): Promise<FoldingRange[]> {
@@ -93,12 +93,6 @@ export class TsxFoldProvider implements FoldingRangeProvider {
         node.endPosition.row > node.startPosition.row
       ) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Function));
-      }
-      if (
-        (node.type === "jsx_element") &&
-        node.endPosition.row > node.startPosition.row
-      ) {
-        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Jsx));
       }
     }
   }
