@@ -77,7 +77,7 @@ export class TsxFoldProvider implements FoldingRangeProvider {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Comment));
       }
       if (
-        (node.type === "lexical_declaration" || node.type === "export_statement" || node.type === "interface_declaration" || node.type === "public_field_definition") &&
+        (node.type === "lexical_declaration" || node.type === "export_statement" || node.type === "interface_declaration" || node.type === "public_field_definition" || node.type === "expression_statement") &&
         node.endPosition.row > node.startPosition.row
       ) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Declaration));
