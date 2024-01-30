@@ -2,6 +2,9 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.4.10] - 2024-01-30
+- Bug. Err blocks are not correctly identified inside if block (#13).
+
 ## [0.4.9] - 2024-01-21
 - Bug. Cursor position was folded when `fold-ninja.foldSelection` was not checked.
 
