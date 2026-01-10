@@ -3,10 +3,16 @@ import * as providers from './foldProviders'
 
 import * as event from './event'
 import { showMenuOptions } from './action/showMenuOptions';
+import { DocumentManager } from './store/DocumentManager';
 
 export function activate(context: vscode.ExtensionContext) {
 
 	event.onLoad(context);
+
+	context.subscriptions.push(vscode.workspace.onDidCloseTextDocument((doc) => {
+        DocumentManager.removeItem(doc.fileName);
+    }));
+	
 	context.subscriptions.push(vscode.commands.registerCommand('fold-ninja.showMenuOptions', showMenuOptions));
 	context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(event.onTextEditorActivated));
 	context.subscriptions.push(vscode.languages.registerFoldingRangeProvider({ language: 'c' }, new providers.CFoldProvider()));

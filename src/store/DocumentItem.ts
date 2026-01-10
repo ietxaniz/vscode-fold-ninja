@@ -8,6 +8,7 @@ import { FoldNinjaConfiguration } from '../configuration/FoldNinjaConfiguration'
 import { FoldRangeCollector } from '../foldProviders/FoldRangeCollector';
 import { computeHash } from '../compute/computeHash';
 import { FoldingRange } from '../foldProviders/FoldingRange';
+import { ParserLoader, SupportedLanguage } from './ParserLoader';
 
 export class DocumentItem {
     private _document: vscode.TextDocument;
@@ -39,45 +40,32 @@ export class DocumentItem {
     }
 
     async setParser(language: string) {
-        if (this._parser) {
-            if (this._parserLanguage !== language) {
-                vscode.window.showErrorMessage(`Parser language mismatch: ${this._parserLanguage} !== ${language}`);
-            }
+        if (this._parser && this._parserLanguage === language) {
             return;
         }
-        if (language === "tree-sitter-go.wasm") {
-            await Parser.init();
+
+        let targetLang: SupportedLanguage | undefined;
+        switch (language) {
+            case 'tree-sitter-go.wasm': targetLang = SupportedLanguage.GO; break;
+            case 'tree-sitter-c.wasm': targetLang = SupportedLanguage.C; break;
+            case 'tree-sitter-tsx.wasm': targetLang = SupportedLanguage.TSX; break;
+            case 'tree-sitter-typescript.wasm': targetLang = SupportedLanguage.TYPESCRIPT; break;
+        }
+
+        if (!targetLang) {
+            vscode.window.showErrorMessage(`Fold Ninja: Unsupported language file ${language}`);
+            return;
+        }
+
+        try {
+            const lang = await ParserLoader.getLanguage(targetLang);
             this._parser = new Parser();
-            const Lang = await Parser.Language.load(path.join(__dirname, 'tree-sitter-go.wasm'));
-            this._parser.setLanguage(Lang);
+            this._parser.setLanguage(lang);
             this._parserLanguage = language;
-            return;
+        } catch (e) {
+            console.error(`Fold Ninja: Failed to load language ${language}`, e);
         }
-        if (language === "tree-sitter-c.wasm") {
-            await Parser.init();
-            this._parser = new Parser();
-            const Lang = await Parser.Language.load(path.join(__dirname, 'tree-sitter-c.wasm'));
-            this._parser.setLanguage(Lang);
-            this._parserLanguage = language;
-            return;
-        }
-        if (language === "tree-sitter-tsx.wasm") {
-          await Parser.init();
-          this._parser = new Parser();
-          const Lang = await Parser.Language.load(path.join(__dirname, 'tree-sitter-tsx.wasm'));
-          this._parser.setLanguage(Lang);
-          this._parserLanguage = language;
-          return;
-      }
-      if (language === "tree-sitter-typescript.wasm") {
-        await Parser.init();
-        this._parser = new Parser();
-        const Lang = await Parser.Language.load(path.join(__dirname, 'tree-sitter-typescript.wasm'));
-        this._parser.setLanguage(Lang);
-        this._parserLanguage = language;
-        return;
     }
-  }
 
     async removeParser() {
         this._parser = null;
