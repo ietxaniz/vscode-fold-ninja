@@ -7,6 +7,7 @@ export enum FoldingRangeType {
   Function = "func",
   Error = "err",
   Declaration = "decl",
+  BracedChild = "braced-child",
   Class = "class",
   Jsx = "jsx",
 }
@@ -23,6 +24,9 @@ export class FoldingRange extends vscode.FoldingRange {
         break;
       case FoldingRangeType.Region:
         super(start, end, vscode.FoldingRangeKind.Region);
+        break;
+      case FoldingRangeType.BracedChild:
+        super(start, end); 
         break;
       default:
         super(start, end);

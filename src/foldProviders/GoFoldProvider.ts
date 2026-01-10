@@ -53,19 +53,28 @@ export class GoFoldProvider implements FoldingRangeProvider {
   private parse(nodes: Parser.SyntaxNode[], collector: FoldRangeCollector) {
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i];
+      let found = false;
       if (node.type === "comment" && node.endPosition.row > node.startPosition.row) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Comment));
+        found = true;
       }
       if (node.type === "import_declaration" && node.endPosition.row > node.startPosition.row) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Import));
+        found = true;
       }
       if (node.type === "function_declaration" && node.endPosition.row > node.startPosition.row) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Function));
+        found = true;
       }
       if (node.type === "func_literal" && node.endPosition.row > node.startPosition.row) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Function));
+        found = true;
       }
-      if (node.type === "block" && node.endPosition.row > node.startPosition.row) {
+      if ((node.type === "if_statement" || node.type === "for_statement") && node.endPosition.row > node.startPosition.row) {
+        collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.BracedChild));
+        found = true;
+      }
+      if (node.type === "block" && node.endPosition.row > node.startPosition.row && !found) {
         this.processFoldingRangesInsideFunction(node, collector);
       }
       if (

@@ -5,7 +5,7 @@
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)](https://img.shields.io/visual-studio-marketplace/r/ietxaniz.fold-ninja)
 [![GitHub stars](https://img.shields.io/github/stars/ietxaniz/vscode-fold-ninja)](https://github.com/ietxaniz/vscode-fold-ninja/stargazers)
 
-**Fold Ninja** is a folding extension for Visual Studio Code designed to cut through the noise and boost code readability.
+**Fold Ninja** is a folding extension for Visual Studio Code **specifically optimized to improve Go development by eliminating error-handling verbosity**, though it also provides support for other languages.
 
 Unlike standard folding tools that rely on fragile regular expressions, Fold Ninja uses **Tree-sitter** to understand the actual structure of your code. This improves folding accuracy and allows for powerful, context-aware features.
 

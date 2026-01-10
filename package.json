@@ -1,25 +1,29 @@
 {
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
-  "description": "Enhance code readability by folding (manually or automatically) verbose sections and comments across multiple languages.",
-  "version": "0.5.0",
+  "description": "Simplify Go development by hiding error-handling boilerplate. Automatically merge 'if err != nil' blocks to focus on core logic.",
+  "version": "0.5.1",
   "publisher": "ietxaniz",
   "icon": "doc/fold-ninja.png",
   "engines": {
     "vscode": "^1.67.0"
   },
   "categories": [
+    "Programming Languages",
+    "Formatters",
     "Other"
   ],
   "keywords": [
     "fold",
     "go fold",
-    "code folding",
+    "go error handling",
     "golang",
-    "react",
-    "typescript",
-    "code review",
-    "readability"
+    "hide error",
+    "boilerplate",
+    "clean code",
+    "readability",
+    "code folding",
+    "go"
   ],
   "activationEvents": [
     "onStartupFinished"
