@@ -70,21 +70,52 @@ export class GoFoldProvider implements FoldingRangeProvider {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Function));
         found = true;
       }
-      if ((node.type === "if_statement" || node.type === "for_statement") && node.endPosition.row > node.startPosition.row) {
+      if (
+        (node.type === "if_statement" || node.type === "for_statement" || node.type === "select_statement") &&
+        node.endPosition.row > node.startPosition.row
+      ) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.BracedChild));
         found = true;
-      }
-      if (node.type === "block" && node.endPosition.row > node.startPosition.row && !found) {
-        this.processFoldingRangesInsideFunction(node, collector);
       }
       if (
         (node.type === "short_var_declaration" || node.type === "assignment_statement" || node.type === "type_declaration") &&
         node.endPosition.row > node.startPosition.row
       ) {
         collector.addFoldingRange(new FoldingRange(node.startPosition.row, node.endPosition.row, FoldingRangeType.Declaration));
+        found = true;
+      }
+      if (node.type === "block" && node.endPosition.row > node.startPosition.row && !found) {
+        this.processFoldingRangesInsideFunction(node, collector);
       }
       this.parse(node.children, collector);
     }
+  }
+
+  private getAssignedIdentifiers(node: Parser.SyntaxNode): string[] {
+    const left = node.childForFieldName("left");
+    if (!left) return [];
+    return left.namedChildren
+      .filter(c => c.type === "identifier")
+      .map(c => c.text);
+  }
+
+  private isErrorIdentifier(name: string): boolean {
+    const lower = name.toLowerCase();
+    return lower === "err" || lower.startsWith("err") || lower.endsWith("err");
+  }
+
+  private ifConditionChecksIdentifierNil(node: Parser.SyntaxNode, identifiers: string[]): boolean {
+    const condition = node.childForFieldName("condition");
+    if (!condition || condition.type !== "binary_expression") return false;
+    const op = condition.children.find(c => c.type === "!=");
+    if (!op) return false;
+    const named = condition.namedChildren;
+    if (named.length !== 2) return false;
+    const [left, right] = named;
+    return (
+      (left.type === "identifier" && right.type === "nil" && identifiers.includes(left.text)) ||
+      (right.type === "identifier" && left.type === "nil" && identifiers.includes(right.text))
+    );
   }
 
   private processFoldingRangesInsideFunction(node: Parser.SyntaxNode, collector: FoldRangeCollector) {
@@ -92,12 +123,15 @@ export class GoFoldProvider implements FoldingRangeProvider {
       const current = node.children[i];
       const next = node.children[i + 2];
 
-      const isErrorAssignment =
-        (current.type === "short_var_declaration" || current.type === "assignment_statement") &&
-        (current.text.includes("err :=") || current.text.includes("err ="));
-      const isErrorCheck = next.type === "if_statement" && next.text.includes("err != nil");
+      const isAssignment =
+        current.type === "short_var_declaration" || current.type === "assignment_statement";
+      if (!isAssignment || next.type !== "if_statement") continue;
 
-      if (isErrorAssignment && isErrorCheck) {
+      const identifiers = this.getAssignedIdentifiers(current);
+      const errorIdentifiers = identifiers.filter(id => this.isErrorIdentifier(id));
+      if (errorIdentifiers.length === 0) continue;
+
+      if (this.ifConditionChecksIdentifierNil(next, errorIdentifiers)) {
         const startLine = current.startPosition.row;
         const endLine = next.endPosition.row;
         if (startLine < endLine) {

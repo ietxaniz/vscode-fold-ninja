@@ -26,7 +26,7 @@ export class FoldNinjaConfiguration {
     if (language === "tree-sitter-go.wasm"){
       return vscode.workspace.getConfiguration('fold-ninja').get<string>('go-intermediate-folded', 'first-comment,err');
     }
-    if (language === "tree-sitter-v.wasm"){
+    if (language === "tree-sitter-c.wasm"){
       return vscode.workspace.getConfiguration('fold-ninja').get<string>('c-intermediate-folded', 'first-comment');
     }
     if (language === "tree-sitter-tsx.wasm"){

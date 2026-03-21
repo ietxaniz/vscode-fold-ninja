@@ -2,6 +2,13 @@
 
 All notable changes to "Fold Ninja" extension will be documented in this file.
 
+## [0.5.3] - 2026-03-21
+
+### Changed
+- Replace text-based pattern matching with AST traversal for Go error fold detection. Error variable names beyond plain `err` (e.g. `fileErr`, `dbErr`) are now correctly detected.
+- Add `select_statement` to fold range handling, fixing incorrect fold boundaries inside select blocks.
+- Fix C language intermediate fold configuration that was silently broken due to a wrong internal key.
+
 ## [0.4.10] - 2024-01-30
 - Bug. Err blocks are not correctly identified inside if block (#13).
 
@@ -61,7 +68,7 @@ All notable changes to "Fold Ninja" extension will be documented in this file.
 ## [0.4.0] - 2024-01-20
 
 - Configuration settings for folding calculation limits, enabling performance optimization.
-- Folding Calculation Modes: Intense (for real-time updates) and On-Demand (for folding calculations initiated by user actions).
+- Folding Calculation Modes: Intense (for real-time updates) and On-Demand (for folding calculations initiated by user actions)
 
 ### Changed
 

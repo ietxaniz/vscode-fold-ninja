@@ -2,7 +2,7 @@
   "name": "fold-ninja",
   "displayName": "Fold Ninja",
   "description": "Simplify Go development by hiding error-handling boilerplate. Automatically merge 'if err != nil' blocks to focus on core logic.",
-  "version": "0.5.1",
+  "version": "0.5.3",
   "publisher": "ietxaniz",
   "icon": "doc/fold-ninja.png",
   "engines": {
@@ -78,12 +78,12 @@
           "fold-ninja.typescript-folded": {
             "type": "string",
             "default": "import,comment,func,decl,class",
-            "description": "Specifies comma separated tags in typescfipt language files that will be folded in compact mode."
+            "description": "Specifies comma separated tags in typescript language files that will be folded in compact mode."
           },
           "fold-ninja.typescript-intermediate-folded": {
             "type": "string",
             "default": "import,first-comment,func,decl",
-            "description": "Specifies comma separated tags in typescfipt language files that will be folded in intermediate mode."
+            "description": "Specifies comma separated tags in typescript language files that will be folded in intermediate mode."
           }
         }
       }
